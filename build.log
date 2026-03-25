@@ -1,0 +1,6 @@
+src/App.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/BootSequence.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/TopNav.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Experience.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Home.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Projects.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
