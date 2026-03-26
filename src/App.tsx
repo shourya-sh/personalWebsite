@@ -8,6 +8,7 @@ import Education from '@/pages/Education';
 import Projects from '@/pages/Projects';
 import Games from '@/pages/Games';
 import Contact from '@/pages/Contact';
+import Resume from '@/pages/Resume';
 
 function App() {
   const [booted, setBooted] = useState(false);
@@ -26,6 +27,7 @@ function App() {
               <Route path="/education" element={<Education />} />
               <Route path="/experience" element={<Experience />} />
               <Route path="/games" element={<Games />} />
+              <Route path="/resume" element={<Resume />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>
           </main>

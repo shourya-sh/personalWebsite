@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Experience() {
   return (
-    <section className="px-12 py-16 max-w-[1200px] mx-auto w-full">
+    <section className="px-12 pt-16 pb-4 max-w-[1200px] mx-auto w-full">
       <div className="flex items-center gap-3 mb-12">
         <span className="text-secondary font-semibold text-2xl">{`>`}</span>
         <h2 className="font-display text-4xl font-bold tracking-tight">
@@ -11,66 +11,107 @@ export default function Experience() {
       </div>
 
       {/* Timeline */}
-      <div className="relative mb-20">
+      <div className="relative animate-[fadeIn_0.5s_ease-out]">
         <TimelineItem 
-          tag="CORE_ARCHITECT"
-          role="INDEPENDENT DEVELOPER"
-          company="@ PERSONAL_PROJECTS"
-          period="Ongoing"
-          desc="Building full-stack applications, experimenting with AI systems, and contributing to open-source development. Passionate about turning ideas into deployed products."
+          theme="secondary"
+          tag="RISK_CONSULTANT"
+          role="Technology Risk Consultant Intern"
+          company="@ EY - Incoming"
+          period="May 2026 - Aug 2026"
+          desc="Assist in evaluating AI enabled systems and related controls as part of Technology Risk and Assurance engagements."
         />
         <TimelineItem 
-          tag="BUILDER"
-          role="EARLY PROTOTYPING"
-          company="@ FOUNDATION_SYSTEMS"
-          period="Completed"
-          desc="Explored computer science fundamentals and laid the groundwork for advanced algorithmic study through early architectural deployments."
+          theme="primary"
+          tag="MATH_INSTRUCTOR"
+          role="Mathematics Instructor"
+          company="@ Mathnasium"
+          period="Mar 2024 - Dec 2025"
+          desc="Worked with students of all ages to strengthen math skills, help with schoolwork, and build confidence through one-on-one support."
+        />
+        <TimelineItem 
+          theme="tertiary"
+          tag="ROBOTICS_LEAD"
+          role="Robotics Instructor"
+          company="@ Zebra Robotics"
+          period="Mar 2023 - Mar 2024"
+          desc="Taught students how to build and program lego robots through hands-on lessons and projects. Helped them develop problem-solving skills while making STEM fun and engaging."
+        />
+        <TimelineItem 
+          theme="accent"
+          tag="UMPIRE_OFFICIAL"
+          role="Baseball Umpire"
+          company="@ MSBA"
+          period="2022 - Present"
+          desc="Officiated competitive baseball games, making quick decisions and keeping games running smoothly in a fast-paced environment."
           isLast
         />
       </div>
 
-      {/* Skills Matrix */}
-      <div className="mt-12">
-        <h2 className="font-display text-2xl font-semibold mb-8 flex items-center gap-3">
-          <span className="text-secondary">{`>`}</span>
-          Skillset_Matrix
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <SkillBar name="JavaScript / TypeScript" level="90%" fill={90} theme="primary" />
-          <SkillBar name="Python" level="85%" fill={85} theme="primary" />
-          <SkillBar name="React / Next.js" level="88%" fill={88} theme="primary" />
-          <SkillBar name="Node.js / Backend" level="82%" fill={82} theme="secondary" />
-          <SkillBar name="UI / UX Design" level="78%" fill={78} theme="tertiary" />
-          <SkillBar name="AI / Machine Learning" level="75%" fill={75} theme="tertiary" />
-        </div>
-      </div>
+
     </section>
   );
 }
 
-function TimelineItem({ tag, role, company, period, desc, isLast }: { tag: string, role: string, company: string, period: string, desc: string, isLast?: boolean }) {
+function TimelineItem({ tag, role, company, period, desc, isLast, theme }: { tag: string, role: string, company: string, period: string, desc: string, isLast?: boolean, theme: 'primary' | 'secondary' | 'tertiary' | 'accent' }) {
+  
+  const getThemeStyles = () => {
+    switch(theme) {
+      case 'secondary': return {
+        node: 'bg-[#00fc40] shadow-[0_0_10px_rgba(0,252,64,0.5)]',
+        line: 'from-[#00fc40]/50 to-transparent',
+        tagBg: 'bg-[#00fc40]/10 text-[#00fc40] border border-[#00fc40]/20',
+        hover: 'hover:border-[#00fc40]/30 hover:shadow-[0_8px_30px_rgba(0,252,64,0.1)]',
+        companyText: 'text-[#00fc40]'
+      };
+      case 'tertiary': return {
+        node: 'bg-[#ac89ff] shadow-[0_0_10px_rgba(172,137,255,0.5)]',
+        line: 'from-[#ac89ff]/50 to-transparent',
+        tagBg: 'bg-[#ac89ff]/10 text-[#ac89ff] border border-[#ac89ff]/20',
+        hover: 'hover:border-[#ac89ff]/30 hover:shadow-[0_8px_30px_rgba(172,137,255,0.1)]',
+        companyText: 'text-[#ac89ff]'
+      };
+      case 'accent': return {
+        node: 'bg-[#ff5f57] shadow-[0_0_10px_rgba(255,95,87,0.5)]',
+        line: 'from-[#ff5f57]/50 to-transparent',
+        tagBg: 'bg-[#ff5f57]/10 text-[#ff5f57] border border-[#ff5f57]/20',
+        hover: 'hover:border-[#ff5f57]/30 hover:shadow-[0_8px_30px_rgba(255,95,87,0.1)]',
+        companyText: 'text-[#ff5f57]'
+      };
+      default: return {
+        node: 'bg-[#a1faff] shadow-[0_0_10px_rgba(161,250,255,0.5)]',
+        line: 'from-[#a1faff]/50 to-transparent',
+        tagBg: 'bg-[#a1faff]/10 text-[#a1faff] border border-[#a1faff]/20',
+        hover: 'hover:border-[#a1faff]/30 hover:shadow-[0_8px_30px_rgba(161,250,255,0.1)]',
+        companyText: 'text-[#a1faff]'
+      };
+    }
+  };
+
+  const styles = getThemeStyles();
+
   return (
-    <div className="flex gap-6 mb-8 group">
+    <div className={`flex gap-6 group ${isLast ? '' : 'mb-8'}`}>
       <div className="flex flex-col items-center shrink-0 w-5">
-        <div className="w-3 h-3 rounded-full bg-primary box-glow-primary mt-4 shrink-0" />
-        {!isLast && <div className="w-[2px] grow bg-gradient-to-b from-primary-dim to-transparent mt-2" />}
+        <div className={`w-3 h-3 rounded-full mt-4 shrink-0 transition-all duration-300 ${styles.node}`} />
+        {!isLast && <div className={`w-[2px] grow bg-gradient-to-b mt-2 mb-[-32px] ${styles.line}`} />}
       </div>
       
-      <div className="flex-1 bg-surface-low rounded-xl overflow-hidden border border-outline-variant/15 backdrop-blur-md transition-all hover:border-primary/20 hover:shadow-[0_8px_30px_rgba(0,244,254,0.06)]">
-        <div className="px-4 py-3 bg-surface-highest flex gap-1.5">
+      <div className={`flex-1 bg-[#101010] rounded-xl overflow-hidden border border-[#1f1f1f] transition-all duration-300 ${styles.hover}`}>
+        {/* MacOS-style Window Decorator */}
+        <div className="px-4 py-2.5 bg-[#181818] border-b border-[#1f1f1f] flex gap-1.5 items-center">
           <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
           <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
           <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+          <span className="ml-3 font-mono text-[9px] text-[#777575] tracking-widest leading-none relative top-[1px]">JOB_EXECUTION</span>
         </div>
-        <div className="p-6">
-          <span className="font-display text-[10px] font-semibold tracking-widest text-surface-lowest bg-primary px-3 py-1 rounded-sm inline-block mb-3">
+        <div className="p-5 md:p-6 bg-[#0a0a0a]">
+          <span className={`font-mono text-[9px] font-bold tracking-wider px-2 py-1 rounded inline-block mb-4 uppercase ${styles.tagBg}`}>
             {tag}
           </span>
-          <h3 className="font-display text-xl font-semibold text-on-surface mb-1">{role}</h3>
-          <p className="font-mono text-xs text-secondary mb-2">{company}</p>
-          <p className="font-mono text-[11px] text-outline mb-3">{period}</p>
-          <p className="text-sm text-on-surface-variant leading-relaxed">
+          <h3 className="font-display text-[15px] sm:text-lg font-bold text-white mb-2 tracking-wide">{role}</h3>
+          <p className={`font-mono text-[11px] mb-3 ${styles.companyText}`}>{company}</p>
+          <p className="font-mono text-[11px] text-[#a1a1a1] font-medium mb-4 tracking-wider">{period}</p>
+          <p className="font-mono text-[11.5px] text-[#a1a1a1] leading-loose max-w-3xl">
             {desc}
           </p>
         </div>

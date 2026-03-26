@@ -3,7 +3,7 @@ import { Send, Link as LinkIcon, Share2 } from 'lucide-react';
 
 export default function Contact() {
   return (
-    <section className="px-12 py-16 max-w-[1200px] mx-auto w-full">
+    <section className="px-12 py-4 lg:py-0 max-w-[1200px] mx-auto w-full lg:h-[calc(100vh-120px)] flex flex-col justify-center">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
         
         {/* Identity Card */}
@@ -17,19 +17,19 @@ export default function Contact() {
             <span className="font-mono text-[11px] text-on-surface-variant tracking-wider">identity.sys</span>
           </div>
           
-          <div className="p-8">
+          <div className="p-6">
             <h1 className="font-display text-4xl font-bold tracking-tight mb-2">
               SHOURYA<span className="text-primary text-glow-primary">_</span>SHETH
             </h1>
             <p className="font-mono text-[13px] text-primary-dim mb-2">System Architect // Builder</p>
-            <p className="font-mono text-[11px] text-outline mb-6">ESTABLISHING SECURE<span className="text-primary animate-pulse">CONNECTION_</span></p>
+            <p className="font-mono text-[11px] text-outline mb-4">ESTABLISHING SECURE<span className="text-primary animate-pulse">CONNECTION_</span></p>
             
-            <p className="text-[14px] text-on-surface-variant leading-relaxed mb-8">
+            <p className="text-[14px] text-on-surface-variant leading-relaxed mb-6">
               Bridging the gap between high-performance backends and intuitive digital landscapes. Specialized in building resilient systems that thrive in complex environments.
             </p>
 
-            <div className="mb-8">
-              <h3 className="font-display text-[11px] font-semibold tracking-widest text-secondary mb-4">{`> SYSTEM_CAPABILITIES`}</h3>
+            <div className="mb-6">
+              <h3 className="font-display text-[11px] font-semibold tracking-widest text-secondary mb-3">{`> SYSTEM_CAPABILITIES`}</h3>
               <div className="flex flex-wrap gap-2">
                 <CapTag label="Full-Stack Dev" />
                 <CapTag label="System Design" />
@@ -41,10 +41,10 @@ export default function Contact() {
             </div>
 
             <div>
-              <h3 className="font-display text-[11px] font-semibold tracking-widest text-secondary mb-4">{`> EXTERNAL_LINKS`}</h3>
+              <h3 className="font-display text-[11px] font-semibold tracking-widest text-secondary mb-3">{`> EXTERNAL_LINKS`}</h3>
               <div className="flex flex-col gap-3">
-                <ExtLink icon={<LinkIcon size={16} className="text-primary-dim" />} name="GITHUB" path="/src/master" />
-                <ExtLink icon={<Share2 size={16} className="text-primary-dim" />} name="LINKEDIN" path="/in/shourya-sheth" />
+                <ExtLink icon={<LinkIcon size={16} className="text-primary-dim" />} name="GITHUB" path="shourya-sh" href="https://github.com/shourya-sh" />
+                <ExtLink icon={<Share2 size={16} className="text-primary-dim" />} name="LINKEDIN" path="/in/shourya-sheth-98a09b300" href="https://www.linkedin.com/in/shourya-sheth-98a09b300/" />
               </div>
             </div>
           </div>
@@ -61,34 +61,34 @@ export default function Contact() {
             <span className="font-mono text-[11px] text-on-surface-variant tracking-wider">send_message.sh</span>
           </div>
 
-          <div className="p-8">
-            <h2 className="font-display text-2xl font-bold mb-8 flex items-center gap-3 tracking-tight">
+          <div className="p-6">
+            <h2 className="font-display text-2xl font-bold mb-6 flex items-center gap-3 tracking-tight">
               <span className="text-secondary">{`>`}</span>
               EXECUTE_<span className="text-primary text-glow-primary">MESSAGE</span>
             </h2>
 
-            <form className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2">
+            <form className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5">
                 <label className="font-display text-[10px] font-semibold tracking-widest text-on-surface-variant uppercase">SENDER_ID</label>
-                <input type="text" className="bg-transparent border-b border-outline-variant/60 py-2 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline" placeholder="Enter your designation..." />
+                <input type="text" className="bg-transparent border-b border-outline-variant/60 py-1.5 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline" placeholder="Enter your designation..." />
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 <label className="font-display text-[10px] font-semibold tracking-widest text-on-surface-variant uppercase">COMM_CHANNEL</label>
-                <input type="email" className="bg-transparent border-b border-outline-variant/60 py-2 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline" placeholder="your_email@network.io" />
+                <input type="email" className="bg-transparent border-b border-outline-variant/60 py-1.5 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline" placeholder="your_email@network.io" />
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 <label className="font-display text-[10px] font-semibold tracking-widest text-on-surface-variant uppercase">SUBJECT_LINE</label>
-                <input type="text" className="bg-transparent border-b border-outline-variant/60 py-2 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline" placeholder="Message classification..." />
+                <input type="text" className="bg-transparent border-b border-outline-variant/60 py-1.5 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline" placeholder="Message classification..." />
               </div>
 
-              <div className="flex flex-col gap-2 mt-2">
+              <div className="flex flex-col gap-1.5 mt-1">
                 <label className="font-display text-[10px] font-semibold tracking-widest text-on-surface-variant uppercase">MESSAGE_BODY</label>
-                <textarea className="bg-transparent border border-outline-variant/60 rounded-md p-3 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline min-h-[140px] resize-y" placeholder="Compose your transmission..." />
+                <textarea className="bg-transparent border border-outline-variant/60 rounded-md p-3 font-mono text-[13px] text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-outline min-h-[90px] resize-y" placeholder="Compose your transmission..." />
               </div>
 
-              <button type="button" className="mt-4 inline-flex items-center justify-center self-start gap-2 bg-primary text-on-primary font-display font-semibold tracking-wider text-[13px] px-6 py-3 rounded-md hover:-translate-y-[1px] box-glow-primary transition-all">
+              <button type="button" className="mt-3 inline-flex items-center justify-center self-start gap-2 bg-primary text-on-primary font-display font-semibold tracking-wider text-[13px] px-6 py-2.5 rounded-md hover:-translate-y-[1px] box-glow-primary transition-all">
                 <Send size={16} />
                 TRANSMIT_MESSAGE
               </button>
@@ -109,9 +109,9 @@ function CapTag({ label }: { label: string }) {
   );
 }
 
-function ExtLink({ icon, name, path }: { icon: React.ReactNode, name: string, path: string }) {
+function ExtLink({ icon, name, path, href }: { icon: React.ReactNode, name: string, path: string, href?: string }) {
   return (
-    <a href="#" className="flex items-center gap-4 p-3 bg-surface rounded-md hover:bg-primary/5 transition-colors group border border-outline-variant/15 hover:border-primary/20">
+    <a href={href || "#"} target={href ? "_blank" : undefined} rel={href ? "noopener noreferrer" : undefined} className="flex items-center gap-4 p-3 bg-surface rounded-md hover:bg-primary/5 transition-all duration-300 group border border-outline-variant/15 hover:border-primary/20 hover:scale-[1.02] hover:shadow-md cursor-pointer">
       <div className="shrink-0">{icon}</div>
       <div>
         <span className="block font-display text-[12px] font-bold text-on-surface tracking-wider group-hover:text-primary transition-colors">{name}</span>

@@ -35,7 +35,7 @@ export default function BootSequence({ onComplete }: { onComplete: () => void })
     <div className={`fixed inset-0 bg-surface-lowest z-[9999] flex items-center justify-center transition-opacity duration-600 ${hidden ? 'opacity-0' : 'opacity-100'}`}>
       <div className="w-[90%] max-w-[600px]">
         <div className="font-display text-5xl font-bold text-primary mb-8 tracking-tighter text-glow-primary">
-          S_S
+          SHOURYA_SHETH
         </div>
         
         <div className="font-mono text-sm text-on-surface-variant flex flex-col gap-2">
@@ -44,7 +44,7 @@ export default function BootSequence({ onComplete }: { onComplete: () => void })
           {linesVisible > 2 && <p>[ <span className="text-secondary font-bold">OK</span> ] Establishing connection to global_data_mesh...</p>}
           {linesVisible > 3 && <p>[ <span className="text-secondary font-bold">OK</span> ] Authenticating user credentials...</p>}
           {linesVisible > 4 && <p className="mt-2">{`>>`} IDENTITY_AUTH: <span className="text-secondary font-bold">VERIFIED</span></p>}
-          {linesVisible > 5 && <p>{`>>`} Welcome, <span className="text-primary text-glow-primary">SHOURYA_SHETH</span></p>}
+          {linesVisible > 5 && <p>{`>>`} Welcome, <span className="text-primary text-glow-primary">USER</span></p>}
           {linesVisible > 6 && <p>{`>>`} Loading environment<span className="animate-pulse text-primary">_</span></p>}
         </div>
 

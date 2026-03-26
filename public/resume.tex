@@ -1,0 +1,207 @@
+%-------------------------
+% Resume in Latex
+% Author : Shourya Sheth
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+% \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+%   \textbf{\href{http://sourabhbajaj.com/}{\Large Sourabh Bajaj}} & Email : \href{mailto:sourabh@sourabhbajaj.com}{sourabh@sourabhbajaj.com}\\
+%   \href{http://sourabhbajaj.com/}{http://www.sourabhbajaj.com} & Mobile : +1-123-456-7890 \\
+% \end{tabular*}
+
+\begin{center}
+    \textbf{\Huge \scshape Shourya Sheth} \\ \vspace{1pt}
+    \small 647-507-6807 $|$ \href{mailto:shourya.sh7@gmail.com}{\underline{shourya.sh7@gmail.com}} $|$ 
+    \href{https://www.linkedin.com/in/shourya-sheth-98a09b300/}{\underline{https://www.linkedin.com/in/shourya-sheth}} $|$
+    \href{https://github.com/shourya-sh}{\underline{github.com/shourya-sh}}
+\end{center}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of Waterloo}{Waterloo, ON}
+      {Bachelor of Computer Science (Honours) - 4.0 Cumulative GPA}{Sept 2025 -- Present}
+    \resumeSubheading
+      {Wilfrid Laurier University}{Waterloo, On}
+      {Bachelor of Business Administration (Honours) - 11 Cumulative GPA (12 point scale)}{Sept 2025 -- Present}
+    \resumeSubheading
+      {The Woodlands Secondary School}{Mississauga, On}
+      {Highschool Ontario Secondary School Diploma - 98.5 Culmulative Average}{Sept 2021 -- June 2025}
+  \resumeSubHeadingListEnd
+
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Incoming Technology Risk Management Consultant }{May 2026 -- Present}
+      {EY Assurance }{Toronto, ON}
+      \resumeItemListStart
+        \resumeItem{Support assessments of AI governance, risk, and control frameworks focusing on Responsible AI principles}
+        \resumeItem{Assist in evaluating AI enabled systems and related controls as part of Technology Risk and Assurance engagements}
+        \resumeItem{Contribute to documentation, risk reporting, and development of AI risk assessment tools supporting client recommendations and assurance deliverables}
+      \resumeItemListEnd
+
+
+    \resumeSubheading
+      {Mathematics Instructor}{March 2024 -- December 2025}
+      {Mathnasium Inc. }{Mississauga, ON}
+      \resumeItemListStart
+        \resumeItem{Facilitated and supported the learning of Gr. 1 -12 students build foundational math skills and with homework}
+        \resumeItem{Successfully taught topics of functions, trigonometry, high school calculus, algebraic/geometric vectors, and beyond}
+        \resumeItem{Engaged in learning sessions with students in person and online to offer a wider range of services}
+    \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+    \resumeProjectHeading
+          {\textbf{Communico} $|$ \emph{React Native, JavaScript, Gemini, OpenRouter, Elevenlabs, face-api.js}}{January 2026 -- January 2026}
+          \resumeItemListStart
+            \resumeItem{Developed a React Native augmented and alternative communications app for minimal to nonverbal speakers}
+            \resumeItem{Added features such as picture-tile based sentence building, live transcription, drawing based sentiment analysis, text to speech, emotion detection, and AI suggestions}
+            \resumeItem{Used Gemini API via OpenRouter to provide sentence/drawing analysis, face-api.js for emotion detection, and ElevenLabs to provide text-to-speech with embedded emotions}
+            \resumeItem{Won \textbf{Best Accessibility Hack} at DeltaHacks 12}
+          \resumeItemListEnd
+    \resumeProjectHeading
+          {\textbf{Derivative Hedging via Reinforcement Learning} $|$ \emph{Python, MatPlotLib, TensorFlow}}{November 2026 -- Present}
+          \resumeItemListStart
+            \resumeItem{Designed state spaces incorporating simulated price movements off Geometric Brownian Motion, Greeks, and portfolio exposure to inform agent decisions}
+            \resumeItem{Evaluated agent performance against baseline hedging strategies using cumulative P\&L and risk metrics}
+            \resumeItem{Used Matplotlib dashboards to visualize price movements, training convergence, hedge ratios, and portfolio performance over time}
+          \resumeItemListEnd
+    \resumeProjectHeading
+          {\textbf{Autonomous Magnetic Antifouling bot} $|$ \emph{Arduino, C++, Fusion 360}}{January 2023 -- August 2025}
+          \resumeItemListStart
+            \resumeItem{Created an autonomous magnetic robot prototype to solve the problem of biofouling on industrial vessels}
+            \resumeItem{Used Fusion 360 to design entire chassis and cleaning system, 3D printed robot, used Arduino and open source materials to facilitate control}
+            \resumeItem{\textbf{Won 2nd internationally} at the World Robotics Olympiad Future Innovators in Panama}
+            \resumeItem{\textbf{Received \$1000 grant} presented by Ontario's Lieutenant Governer, Edith Dumont to continue development}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+
+
+%
+%-----------PROGRAMMING SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: Java, Python, C/C++, SQL (Postgres), JavaScript/TypeScript, HTML/CSS, Racket} \\
+     \textbf{Frameworks}{: React, React Native, Node.js, Flask, FastAPI} \\
+     \textbf{Developer Tools}{: Git, GitHub, VS Code, Visual Studio, Jupyter Notebook, Cursor, Claude} \\
+     \textbf{Libraries}{: pandas, NumPy, Matplotlib, TensorFlow}\\
+     \textbf{Productivity Tools}{: MS365 Office Tools (Excel, Powerpoint, Words, Teams), Google Drive, Notion, Slack}
+    }}
+ \end{itemize}
+
+
+%-------------------------------------------
+\end{document}

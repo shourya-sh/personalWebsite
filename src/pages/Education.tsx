@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Education() {
   return (
-    <section className="px-12 py-16 max-w-[1200px] mx-auto w-full">
+    <section className="px-12 pt-16 pb-4 max-w-[1200px] mx-auto w-full">
       <div className="flex items-center gap-3 mb-12">
         <span className="text-[#00fc40] font-semibold text-2xl">{`>`}</span>
         <h2 className="font-display text-4xl font-bold tracking-tight text-white uppercase">
@@ -10,7 +10,7 @@ export default function Education() {
         </h2>
       </div>
 
-      <div className="relative mb-20">
+      <div className="relative">
         {/* Parallel University block */}
         <div className="flex gap-6 mb-8 group">
           <div className="flex flex-col items-center shrink-0 w-5">
@@ -20,31 +20,31 @@ export default function Education() {
           
           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
             <EduCard 
-              tag="DUAL DEGREE"
-              title="HONORS COMPUTER SCIENCE"
+              tag="DOUBLE DEGREE"
+              title="COMPUTER SCIENCE (HONOURS)"
               school="@ UNIVERSITY OF WATERLOO"
               period="Sept 2025 — April 2030"
               desc="Focusing on advanced algorithms, software architecture, and computer science fundamentals."
             />
             <EduCard 
-              tag="DUAL DEGREE"
-              title="BUSINESS ADMINISTRATION"
+              tag="DOUBLE DEGREE"
+              title="BUSINESS ADMINISTRATION (HONOURS)"
               school="@ WILFRID LAURIER UNIVERSITY"
               period="Sept 2025 — April 2030"
-              desc="Dual degree program bridging technology and executive business strategy."
+              desc="Double degree program bridging technology and executive business strategy."
             />
           </div>
         </div>
 
         {/* High School block */}
-        <div className="flex gap-6 mb-8 group">
+        <div className="flex gap-6 group">
           <div className="flex flex-col items-center shrink-0 w-5">
             <div className="w-3 h-3 rounded-full bg-[#00fc40] shadow-[0_0_8px_rgba(0,252,64,0.6)] mt-4 shrink-0" />
           </div>
           
           <div className="flex-1">
             <EduCard 
-              tag="FOUNDATION"
+              tag="HIGH SCHOOL"
               title="SECONDARY EDUCATION DIPLOMA"
               school="@ THE WOODLANDS SECONDARY SCHOOL"
               period="Sept 2021 — June 2025"
@@ -71,7 +71,7 @@ function EduCard({ tag, title, school, period, desc }: any) {
         </span>
         <h3 className="font-display text-xl font-bold text-white mb-2">{title}</h3>
         <p className="font-mono text-[12px] text-[#00fc40] mb-2">{school}</p>
-        <p className="font-mono text-[11px] text-[#494847] mb-4">{period}</p>
+        <p className="font-mono text-[12px] text-[#a1a1a1] font-medium mb-4">{period}</p>
         <p className="text-[14px] text-[#777575] leading-relaxed">
           {desc}
         </p>
