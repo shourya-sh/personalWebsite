@@ -18,9 +18,8 @@ function App() {
       <BootSequence onComplete={() => setBooted(true)} />
       
       {booted && (
-        <div className="flex h-screen bg-[#0e0e0e] overflow-hidden">
-          <Sidebar />
-          <main className="flex-1 ml-[240px] animate-[fadeIn_0.5s_ease-out] relative h-full overflow-y-auto">
+        <div className="flex h-[100dvh] w-screen bg-[#0e0e0e] overflow-hidden">
+          <main className="flex-1 animate-[fadeIn_0.5s_ease-out] relative h-full w-full overflow-y-auto">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/projects" element={<Projects />} />

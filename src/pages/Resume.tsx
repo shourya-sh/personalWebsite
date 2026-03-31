@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Code, Download, Copy, CheckCircle2 } from 'lucide-react';
+import { FileText, Code, Download, Copy, CheckCircle2, TerminalSquare } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Resume() {
   const [view, setView] = useState<'PDF' | 'TEX'>('PDF');
@@ -32,7 +33,12 @@ export default function Resume() {
   };
 
   return (
-    <div className="p-4 md:p-6 h-full flex flex-col overflow-hidden animate-[fadeIn_0.5s_ease-out]">
+    <div className="p-4 md:p-6 h-full flex flex-col overflow-hidden animate-[fadeIn_0.5s_ease-out] relative">
+      <div className="absolute top-4 left-4 z-50">
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-[11px] text-white hover:text-[#00fc40] transition-colors bg-[#131313] hover:bg-[#1f1f1f] px-3 py-1.5 rounded border border-[#1f1f1f] uppercase tracking-widest">
+          <TerminalSquare size={12} /> [cd ..]
+        </Link>
+      </div>
       <div className="shrink-0 mb-4">
         <h1 className="font-display text-2xl font-bold tracking-tight text-white mb-1 flex items-center gap-3">
           <span className="text-[#a1faff] text-glow-primary">{`>`}</span>

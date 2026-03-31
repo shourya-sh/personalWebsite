@@ -27,7 +27,7 @@ export default function Sidebar() {
           <SidebarLink to="/projects" icon={<Code2 size={18} />} label="PROJECTS" />
           <SidebarLink to="/education" icon={<GraduationCap size={18} />} label="EDUCATION" />
           <SidebarLink to="/experience" icon={<TerminalSquare size={18} />} label="EXPERIENCE" />
-          <SidebarLink to="/games" icon={<Gamepad2 size={18} />} label="GAMES" />
+          <SidebarLink to="/games" icon={<Gamepad2 size={18} />} label="I'M BORED" />
           <SidebarLink to="/contact" icon={<Mail size={18} />} label="CONTACT" />
         </div>
       </div>

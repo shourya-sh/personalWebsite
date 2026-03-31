@@ -1,10 +1,17 @@
 import React from 'react';
-import { Link2, PlusCircle } from 'lucide-react';
+import { Link2, PlusCircle, TerminalSquare } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Projects() {
   return (
-    <section className="px-12 py-16 max-w-[1200px] mx-auto w-full">
-      <div className="flex flex-col gap-2 mb-10">
+    <div className="min-h-full h-full p-4 md:p-6 lg:p-8 animate-[fadeIn_0.5s_ease-out] w-full max-w-4xl mx-auto flex flex-col">
+      <div className="shrink-0 mb-6">
+        <Link to="/" className="inline-flex items-center gap-2 font-mono text-[11px] md:text-[13px] text-white hover:text-[#00fc40] transition-colors bg-[#131313] hover:bg-[#1f1f1f] px-4 py-2 rounded border border-[#1f1f1f] border-b-2 shadow-sm uppercase tracking-widest cursor-pointer">
+          <TerminalSquare size={14} /> [cd ..] RETURN_TO_ROOT
+        </Link>
+      </div>
+
+      <div className="shrink-0 mb-8 border-b border-[#1f1f1f] pb-4">
         <div className="flex items-center gap-3">
           <span className="text-secondary font-semibold text-2xl">{`>`}</span>
           <h2 className="font-display text-4xl font-bold tracking-tight uppercase">
@@ -56,7 +63,7 @@ export default function Projects() {
           <p className="font-mono text-[11px] text-on-surface-variant">Create instance / deploy module to cluster</p>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
