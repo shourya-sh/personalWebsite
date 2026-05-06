@@ -10,9 +10,9 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
   // Initialize from localStorage if available
-  const [isOpen, setIsOpen] = useState(() => {
+  const [isOpen, setIsOpen] = useState<boolean>(() => {
     const saved = localStorage.getItem('sidebarOpen');
-    return saved !== null ? JSON.parse(saved) : true;
+    return saved !== null ? (JSON.parse(saved) as boolean) : true;
   });
 
   useEffect(() => {
