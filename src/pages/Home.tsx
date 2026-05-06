@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import RightSidebar from '@/components/RightSidebar';
+import { useSidebar } from '@/context/SidebarContext';
 import { useNavigate } from 'react-router-dom';
 import { Github, Linkedin, Instagram, Mail, Send, Link2 } from 'lucide-react';
 
@@ -54,7 +56,7 @@ function navigatePath(imageKey: string) {
 function SystemInfo({ navigate }: { navigate: (path: string) => void }) {
   return (
     <div className="flex flex-col gap-1 md:gap-2 mt-0 mb-1 w-full">
-      <div className="text-gray-300 font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight whitespace-pre hidden sm:block">
+      <div className="ascii-title-filled font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight whitespace-pre hidden sm:block">
         {`   _____ __                                _          ______                    _             __
   / ___// /_  ____  __  _________  ______ ( )_____   /_  __/__  _________ ___  (_)___  ____ _/ /
   \\__ \\/ __ \\/ __ \\/ / / / ___/ / / / __ \`/// ___/    / / / _ \\/ ___/ __ \`__ \\/ / __ \\/ __ \`/ / 
@@ -76,6 +78,7 @@ function SystemInfo({ navigate }: { navigate: (path: string) => void }) {
 }
 
 export default function Home() {
+  const { isOpen } = useSidebar();
   const navigate = useNavigate();
   const [history, setHistory] = useState<{ cmd?: string; out: React.ReactNode | string; isSystem?: boolean }[]>([]);
   const [input, setInput] = useState('');
@@ -145,46 +148,9 @@ export default function Home() {
   useEffect(() => {
     setLastLogin(new Date().toString().split(' GMT')[0]);
 
-    if (sessionStorage.getItem('kinetic_welcome_done')) {
-      setHistory([
-        { cmd: 'sys_connect', out: <span className="text-[#a1faff]">Session restored. Type 'help' for available commands.</span> }
-      ]);
-      return;
-    }
-    sessionStorage.setItem('kinetic_welcome_done', 'true');
-
-    const sequence: { cmd?: string; out: React.ReactNode | string; delay?: number; immediate?: boolean }[] = [
-      { out: '[SYSTEM]: Initializing hardware abstractions... [OK]', delay: 8 },
-      { out: '[SYSTEM]: CPU: Intel(R) Core(TM) Quantum Processor (8 cores) [OK]', delay: 10 },
-      { out: '[SYSTEM]: Memory checks passed. 8192MB allocation successful.', delay: 5 },
-      { out: '[SYSTEM]: Mounting virtual file systems -> root... [SUCCESS]', delay: 10 },
-      { out: '[SYSTEM]: Starting GUI display manager... [READY]', delay: 5 },
-      { cmd: 'sys_connect', out: 'Secure uplink active. Type \'help\' for available commands.', delay: 15 }
-    ];
-
-    let step = 0;
-    const executeSequence = () => {
-      if (step >= sequence.length) return;
-      const current = sequence[step];
-
-      if (current.immediate) {
-        setHistory(prev => [...prev, { cmd: current.cmd, out: current.out }]);
-        step++;
-        setTimeout(executeSequence, 200);
-      } else {
-        setHistory(prev => [...prev, {
-          cmd: current.cmd,
-          out: <span className={!current.cmd ? "text-[#777575]" : "text-[#a1faff]"}>
-            <TypingText text={current.out as string} delay={current.delay} onComplete={() => {
-              step++;
-              setTimeout(executeSequence, 200);
-            }} />
-          </span>
-        }]);
-      }
-    };
-
-    setTimeout(executeSequence, 500);
+    setHistory([
+      { cmd: 'sys_connect', out: <span className="text-[#a1faff]">Session restored. Type 'help' for available commands.</span> }
+    ]);
   }, []);
 
   useEffect(() => {
@@ -280,8 +246,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-full h-full grid grid-cols-1 xl:grid-cols-[1fr_260px] bg-[#0a0a0a]" onClick={() => inputRef.current?.focus()}>
-
+    <div 
+      className={`min-h-full h-full grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
+        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+      `} 
+      onClick={(e) => { if (!(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus(); }}
+    >
       {/* Main Content - Terminal Full Screen */}
       <div className="flex flex-col h-full w-full overflow-hidden border-r border-[#1f1f1f]">
 
@@ -369,90 +339,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Right Sidebar - Contact/Comms */}
-      <div className="bg-[#0a0a0a] flex flex-col border-t border-[#1f1f1f] xl:border-t-0 z-10 overflow-hidden">
-        <div className="p-4 lg:p-6 flex-1 flex flex-col h-full overflow-hidden">
-          <h2 className="font-display text-[10px] font-bold text-[#a1faff] tracking-widest flex items-center gap-2 mb-4 uppercase shrink-0">
-            <Link2 size={14} /> COMMS_LINK.SYS
-          </h2>
-
-          <div className="flex flex-col gap-3 flex-1 min-h-0">
-            <ContactCard
-              icon={<Github size={20} />}
-              iconBg="bg-[#ffffff]/10 text-white"
-              title="GITHUB.COM"
-              detail="shourya-sh"
-              status="CONNECTED"
-              action="VIEW"
-              actionColor="text-white"
-              href="https://github.com/shourya-sh"
-            />
-            <ContactCard
-              icon={<Linkedin size={20} />}
-              iconBg="bg-[#a1faff]/10 text-[#a1faff]"
-              title="LINKEDIN"
-              detail="/in/shourya-sheth"
-              status="CONNECTED"
-              action="VIEW"
-              actionColor="text-[#a1faff]"
-              href="https://www.linkedin.com/in/shourya-sheth-98a09b300/"
-            />
-            <ContactCard
-              icon={<Instagram size={20} />}
-              iconBg="bg-[#ac89ff]/10 text-[#ac89ff]"
-              title="INSTAGRAM"
-              detail="@shourya.s21"
-              status="ENCRYPTED"
-              action="VIEW"
-              actionColor="text-[#ac89ff]"
-              href="https://www.instagram.com/shourya.s21/"
-            />
-            <ContactCard
-              icon={<Mail size={20} />}
-              iconBg="bg-[#febc2e]/10 text-[#febc2e]"
-              title="SECURE_EMAIL"
-              detail="shourya.sh7@..."
-              status="READY"
-              action="COMPOSE"
-              actionColor="text-[#febc2e]"
-              href="mailto:shourya.sh7@gmail.com"
-            />
-
-            <button onClick={() => navigate('/contact')} className="flex-1 mt-1 w-full bg-[#131313] border border-[#1f1f1f] rounded-lg p-4 flex flex-col items-center justify-center hover:border-[#494847] hover:bg-[#151515] transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group cursor-pointer">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-10 h-10 rounded bg-[#ff5f57]/10 flex items-center justify-center">
-                  <Send size={18} className="text-[#ff5f57]" />
-                </div>
-                <span className="font-display text-[12px] font-bold text-white tracking-widest uppercase relative top-[1px]">TRANSMIT_MSG</span>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Footer Sys Log */}
-        <div className="p-4 lg:p-6 border-t border-[#1f1f1f] font-mono text-[8.5px] text-[#494847] leading-loose shrink-0">
-          <p>{`> COMMS: Interfaces bound.`}</p>
-          <p>{`> COMMS: Uplink established.`}</p>
-          <p className="animate-pulse">{`> SYS_LOG: Awaiting input_`}</p>
-        </div>
-      </div>
+      <RightSidebar />
 
     </div>
-  );
-}
-
-function ContactCard({ icon, iconBg, title, detail, actionColor, href }: any) {
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className="flex-1 bg-[#131313] rounded-lg border border-[#1f1f1f] p-4 flex flex-col justify-center gap-3 hover:border-[#494847] transition-all duration-300 hover:bg-[#151515] hover:scale-[1.02] hover:shadow-md cursor-pointer group overflow-hidden">
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${iconBg} transition-colors group-hover:bg-opacity-20`}>
-          {icon}
-        </div>
-        <div className="min-w-0">
-          <h3 className="font-display text-[13px] font-bold text-white uppercase tracking-wider truncate group-hover:text-white transition-colors">{title}</h3>
-          <p className="font-mono text-[9.5px] text-[#777575] mt-0.5 truncate group-hover:text-[#a1a1a1] transition-colors relative top-[1px]">{detail}</p>
-        </div>
-      </div>
-    </a>
   );
 }

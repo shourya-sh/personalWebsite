@@ -1,3 +1,5 @@
+import RightSidebar from '@/components/RightSidebar';
+import { useSidebar } from '@/context/SidebarContext';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { TerminalSquare, Link2, X, Github, Linkedin, Instagram, Mail, Send } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -40,11 +42,11 @@ function GameIcon({ label, imageKey, onClick }: { label: string, imageKey: strin
 }
 
 const MINIGAMES_ASCII = String.raw`
-    __  ________   ______   _________    __  ______________
-   /  |/  /  _/ | / /  _/  / ____/   |  /  |/  / ____/ ___/
-  / /|_/ // //  |/ // /   / / __/ /| | / /|_/ / __/  \__ \ 
- / /  / // // /|  // /   / /_/ / ___ |/ /  / / /___ ___/ / 
-/_/  /_/___/_/ |_/___/   \____/_/  |_/_/  /_/_____//____/  
+    __  ________   _______________    __  ______________
+   /  |/  /  _/ | / /  _/ ____/   |  /  |/  / ____/ ___/
+  / /|_/ // //  |/ // // / __/ /| | / /|_/ / __/  \__ \ 
+ / /  / // // /|  // // /_/ / ___ |/ /  / / /___ ___/ / 
+/_/  /_/___/_/ |_/___/\____/_/  |_/_/  /_/_____//____/  
 `;
 
 function ContactCard({ icon, iconBg, title, detail, href }: any) {
@@ -66,13 +68,13 @@ function ContactCard({ icon, iconBg, title, detail, href }: any) {
 function MinigamesInfo({ onLaunch }: { onLaunch: (game: string) => void }) {
   return (
     <div className="flex flex-col gap-1 md:gap-2 mt-0 mb-1 w-full">
-      <div className="text-gray-300 font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight whitespace-pre hidden sm:block">
+      <div className="ascii-title-filled font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight whitespace-pre hidden sm:block">
         {MINIGAMES_ASCII}
       </div>
 
       {/* Game Grid Area */}
       <div className="flex flex-wrap gap-4 md:gap-8 max-w-4xl px-2 mt-1">
-        <GameIcon label="BACK" imageKey="back" onClick={() => onLaunch('BACK')} />
+
         <GameIcon label="SNAKE" imageKey="snake" onClick={() => onLaunch('SNAKE')} />
         <GameIcon label="PONG" imageKey="pong" onClick={() => onLaunch('PONG')} />
         <GameIcon label="DINO" imageKey="dino" onClick={() => onLaunch('DINO')} />
@@ -82,6 +84,7 @@ function MinigamesInfo({ onLaunch }: { onLaunch: (game: string) => void }) {
 }
 
 export default function Games() {
+  const { isOpen } = useSidebar();
   const navigate = useNavigate();
   const [gameState, setGameState] = useState<GameState>('IDLE');
   const [activeGame, setActiveGame] = useState<string | null>(null);
@@ -307,7 +310,12 @@ export default function Games() {
   };
 
   return (
-    <div className="min-h-full h-full grid grid-cols-1 xl:grid-cols-[1fr_260px] bg-[#0a0a0a]" onClick={() => { if (gameState !== 'PLAYING') inputRef.current?.focus() }}>
+    <div 
+      className={`min-h-full h-full grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
+        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+      `} 
+      onClick={(e) => { if (gameState !== 'PLAYING' && !(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus() }}
+    >
 
       {/* Main Content - Terminal Full Screen */}
       <div className="flex flex-col h-full w-full overflow-hidden border-r border-[#1f1f1f]">
@@ -340,9 +348,28 @@ export default function Games() {
             {gameState !== 'PLAYING' && (
               <div
                 ref={topPaneRef}
-                className="px-4 md:px-8 pt-3 pb-3 h-full overflow-y-auto overflow-x-hidden scrollbar-hide select-none transition-all border-b border-[#1f1f1f]/50"
-              >
-                <div className="font-mono text-[10px] sm:text-[11px] leading-relaxed text-[#777575] flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                className="px-4 md:px-8 pt-3 pb-3 h-full overflow-y-auto overflow-x-hidden scrollbar-hide select-none transition-all border-b border-[#1f1f1f]/50">
+
+                {/* Back Button - Absolute Positioned to avoid layout shift */}
+                <div
+                  onClick={() => {
+                    setHistory(prev => [...prev, { out: 'Navigating to ROOT...', isSystem: true }]);
+                    setTimeout(() => navigate('/'), 400);
+                  }}
+                  className="absolute top-6 right-10 z-50 flex flex-col items-center gap-1.5 group cursor-pointer"
+                >
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: 'pixelated' }} className="opacity-80 group-hover:opacity-100 transition-opacity">
+                      <path d="M10 32L34 8V22H54V42H34V56L10 32Z" fill="white" />
+                      <rect x="36" y="24" width="12" height="16" fill="rgba(0,0,0,0.2)" />
+                    </svg>
+                    <div className="absolute inset-0 bg-white/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <span className="font-mono text-[10px] md:text-[12px] text-[#777575] text-center group-hover:bg-white group-hover:text-black px-2 py-0.5 transition-all uppercase tracking-widest leading-none">
+                    BACK.EXE
+                  </span>
+                </div>
+                <div className="font-mono text-[10px] sm:text-[11px] leading-relaxed text-[#777575] flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2 pr-28">
                   <div className="flex sm:gap-4 flex-col sm:flex-row">
                     <span>[SYSTEM]: Game Modules Active</span>
                     <span className="text-white">Login: {lastLogin || 'initiating...'}</span>
@@ -385,7 +412,7 @@ export default function Games() {
                   {history.map((h, i) => (
                     <div key={i} className="w-full">
                       <div className="flex items-center gap-2">
-                        <span className="text-white shrink-0 font-bold">admin@shourya:~$</span>
+                        <span className="text-white shrink-0 font-bold">admin@shourya:~/games$</span>
                         <span className="text-gray-300 relative top-0.5">{h.cmd}</span>
                       </div>
                       {h.out && (
@@ -401,7 +428,7 @@ export default function Games() {
                 {/* Terminal Interaction */}
                 <form onSubmit={handleCommand} className="px-4 md:px-8 py-4 md:py-5 border-t border-[#1f1f1f] font-mono text-[12px] md:text-[14px] flex items-center gap-2 shrink-0 relative bg-[#0a0a0a] z-30">
                   <span className="text-white font-bold whitespace-nowrap">
-                    {gameState === 'AWAITING_DIFFICULTY' ? `${activeGame?.toLowerCase()}/difficulty_select> ` : 'admin@shourya:~$'}
+                    {gameState === 'AWAITING_DIFFICULTY' ? `${activeGame?.toLowerCase()}/difficulty_select> ` : 'admin@shourya:~/games$'}
                   </span>
                   <input
                     ref={inputRef}
@@ -419,63 +446,7 @@ export default function Games() {
           </div>
         </div>
       </div>
-
-      {/* Right Sidebar - Contact/Comms */}
-      <div className="bg-[#0a0a0a] flex flex-col border-t border-[#1f1f1f] xl:border-t-0 z-10 overflow-hidden">
-        <div className="p-4 lg:p-6 flex-1 flex flex-col h-full overflow-hidden">
-          <h2 className="font-display text-[10px] font-bold text-[#a1faff] tracking-widest flex items-center gap-2 mb-4 uppercase shrink-0">
-            <Link2 size={14} /> COMMS_LINK.SYS
-          </h2>
-
-          <div className="flex flex-col gap-3 flex-1 min-h-0">
-            <ContactCard
-              icon={<Github size={20} />}
-              iconBg="bg-[#ffffff]/10 text-white"
-              title="GITHUB.COM"
-              detail="shourya-sh"
-              href="https://github.com/shourya-sh"
-            />
-            <ContactCard
-              icon={<Linkedin size={20} />}
-              iconBg="bg-[#a1faff]/10 text-[#a1faff]"
-              title="LINKEDIN"
-              detail="/in/shourya-sheth"
-              href="https://www.linkedin.com/in/shourya-sheth-98a09b300/"
-            />
-            <ContactCard
-              icon={<Instagram size={20} />}
-              iconBg="bg-[#ac89ff]/10 text-[#ac89ff]"
-              title="INSTAGRAM"
-              detail="@shourya.s21"
-              href="https://www.instagram.com/shourya.s21/"
-            />
-            <ContactCard
-              icon={<Mail size={20} />}
-              iconBg="bg-[#febc2e]/10 text-[#febc2e]"
-              title="SECURE_EMAIL"
-              detail="shourya.sh7@..."
-              href="mailto:shourya.sh7@gmail.com"
-            />
-
-            <button onClick={() => navigate('/contact')} className="flex-1 mt-1 w-full bg-[#131313] border border-[#1f1f1f] rounded-lg p-4 flex flex-col items-center justify-center hover:border-[#494847] hover:bg-[#151515] transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group cursor-pointer">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-10 h-10 rounded bg-[#ff5f57]/10 flex items-center justify-center">
-                  <Send size={18} className="text-[#ff5f57]" />
-                </div>
-                <span className="font-display text-[12px] font-bold text-white tracking-widest uppercase relative top-[1px]">TRANSMIT_MSG</span>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Footer Sys Log */}
-        <div className="p-4 lg:p-6 border-t border-[#1f1f1f] font-mono text-[8.5px] text-[#494847] leading-loose shrink-0">
-          <p>{`> COMMS: Interfaces bound.`}</p>
-          <p>{`> COMMS: Uplink established.`}</p>
-          <p className="animate-pulse">{`> SYS_LOG: Awaiting input_`}</p>
-        </div>
-      </div>
+      <RightSidebar />
     </div>
   );
 }
-

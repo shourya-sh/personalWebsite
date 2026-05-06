@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { SidebarProvider } from '@/context/SidebarContext';
 import Sidebar from '@/components/Sidebar';
 import BootSequence from '@/components/BootSequence';
 import Home from '@/pages/Home';
@@ -7,14 +8,13 @@ import Experience from '@/pages/Experience';
 import Education from '@/pages/Education';
 import Projects from '@/pages/Projects';
 import Games from '@/pages/Games';
-import Contact from '@/pages/Contact';
 import Resume from '@/pages/Resume';
 
 function App() {
   const [booted, setBooted] = useState(false);
 
   return (
-    <>
+    <SidebarProvider>
       <BootSequence onComplete={() => setBooted(true)} />
       
       {booted && (
@@ -27,13 +27,13 @@ function App() {
               <Route path="/experience" element={<Experience />} />
               <Route path="/games" element={<Games />} />
               <Route path="/resume" element={<Resume />} />
-              <Route path="/contact" element={<Contact />} />
             </Routes>
           </main>
         </div>
       )}
-    </>
+    </SidebarProvider>
   );
 }
 
 export default App;
+

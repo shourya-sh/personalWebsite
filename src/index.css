@@ -9,4 +9,16 @@
   .box-glow-primary {
     box-shadow: 0 0 20px rgba(0, 244, 254, 0.35);
   }
+  .ascii-title-filled {
+    color: #fff;
+    font-weight: 700;
+    /* Simulate fill by thickening every ASCII stroke */
+    text-shadow:
+      0.4px 0 #fff,
+      -0.4px 0 #fff,
+      0 0.4px #fff,
+      0 -0.4px #fff;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+  }
 }

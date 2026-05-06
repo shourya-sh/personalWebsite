@@ -1,6 +1,25 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Github, Linkedin, Instagram, Mail, GraduationCap, Award, BookOpen, Send, Link2 } from 'lucide-react';
+import RightSidebar from '@/components/RightSidebar';
+import { useSidebar } from '@/context/SidebarContext';
+import { Github, Linkedin, Instagram, Mail, GraduationCap, Award, BookOpen, Send, Link2, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+const SCROLLBAR_STYLE = `
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #111;
+    border-radius: 10px;
+    border: 1px solid #1a1a1a;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #1a1a1a;
+  }
+`;
 
 function TypingText({ text, delay = 20, onComplete }: { text: string, delay?: number, onComplete?: () => void }) {
   const [displayed, setDisplayed] = useState('');
@@ -21,53 +40,51 @@ function TypingText({ text, delay = 20, onComplete }: { text: string, delay?: nu
   return <span>{displayed}</span>;
 }
 
-function EduIcon({ label, ext, imageKey, onClick }: { label: string, ext: string, imageKey: string, onClick: () => void }) {
-  const isBack = imageKey === 'back';
-
+function EduEntry({ label, subtitle, period, description, themeColor, institutionIcon: Icon, onClick, isMini, showBadge }: any) {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col items-center gap-3 cursor-pointer group p-3 border border-transparent hover:border-[#ffffff10] border-dashed rounded-lg transition-all"
+      className={`bg-[#131313]/60 border border-[#1f1f1f] rounded-lg p-5 sm:p-7 hover:border-[#a1faff]/40 transition-all group overflow-hidden relative cursor-pointer ${isMini ? 'flex-1 min-w-0' : 'w-full'}`}
     >
-      <div className="relative w-16 h-16 md:w-24 md:h-24 group-hover:-translate-y-1 transition-transform flex items-center justify-center">
-        {isBack ? (
-          <div className="w-full h-full p-2 flex items-center justify-center grayscale-[0.3] group-hover:grayscale-0 transition-all opacity-80 group-hover:opacity-100">
-            <svg width="100%" height="100%" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: 'pixelated' }}>
-              <path d="M10 32L34 8V20H54V44H34V56L10 32Z" fill="#ffffff" stroke="white" strokeWidth="2" />
-              <rect x="36" y="22" width="16" height="20" fill="rgba(0,0,0,0.15)" />
-            </svg>
+      {showBadge && (
+        <div className="absolute top-0 right-0 px-3 py-1 bg-[#a1faff]/10 border-b border-l border-[#a1faff]/30 rounded-bl text-[#a1faff] text-[8px] sm:text-[10px] font-mono tracking-widest uppercase z-10 flex items-center gap-1.5 backdrop-blur-md">
+          <div className="w-1 h-1 rounded-full bg-[#a1faff] animate-pulse" />
+          DOUBLE DEGREE SYNC
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row gap-6 items-start">
+        <div className={`w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded border border-[#1f1f1f] overflow-hidden relative bg-black group-hover:scale-105 transition-transform duration-500 shadow-inner flex items-center justify-center`}>
+          <div className={`absolute inset-0 opacity-0 bg-gradient-to-br ${themeColor}`} />
+          {typeof Icon === 'string' ? (
+            <img src={Icon} className="w-full h-full object-contain p-1 z-10 opacity-80 group-hover:opacity-100 transition-opacity" alt={label} />
+          ) : (
+            <Icon className="absolute inset-0 m-auto text-[#a1faff]/40 group-hover:text-[#a1faff] transition-colors" size={32} />
+          )}
+          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.15)_50%),linear-gradient(90deg,rgba(255,0,0,0.04),rgba(0,255,0,0.01),rgba(0,0,255,0.04))] bg-[length:100%_2px,3px_100%]" />
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-col sm:flex-row justify-between items-start mb-3 gap-2">
+            <h3 className="text-[#a1faff] font-bold text-[12px] sm:text-[14px] tracking-[0.3em] uppercase sm:min-h-[3.5rem] flex items-start">{label}</h3>
+            <div className="flex items-center gap-2 px-3 py-1 bg-[#1a1a1a] rounded border border-[#2a2a2a] group-hover:border-[#a1faff]/20 transition-all">
+              <Calendar size={12} className="text-[#a1faff]/60" />
+              <span className="text-[10px] text-[#777575] font-mono whitespace-nowrap uppercase tracking-tighter">{period}</span>
+            </div>
           </div>
-        ) : (
-          <img
-            src={`/retro_icons/${imageKey}.png?v=${Date.now()}`}
-            alt={label}
-            className="w-full h-full object-contain mix-blend-screen grayscale-[0.3] brightness-110"
-            style={{ imageRendering: 'pixelated' } as any}
-          />
-        )}
+          <p className="text-white text-[15px] sm:text-[19px] font-medium mb-4 tracking-wide leading-tight">{subtitle}</p>
+          <div className="flex gap-3 items-start bg-black/30 p-3 sm:p-4 rounded border border-[#1f1f1f]/60 group-hover:bg-black/40 transition-all">
+            <div className="mt-1.5 w-2 h-2 rounded-full bg-[#a1faff]/60 shrink-0 shadow-[0_0_10px_#a1faff]" />
+            <p className="text-[#cccccc] text-[12px] sm:text-[14px] leading-relaxed italic opacity-90">{description}</p>
+          </div>
+        </div>
       </div>
-      <span className="font-mono text-[10px] md:text-[12px] text-gray-400 text-center group-hover:bg-white group-hover:text-black px-1.5 py-0.5 whitespace-nowrap">
-        {isBack ? 'BACK.EXE' : `${label}.${ext}`}
-      </span>
+      <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#1f1f1f] group-hover:border-[#a1faff]/30 transition-all rounded-tr-lg" />
+      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#1f1f1f] group-hover:border-[#a1faff]/30 transition-all rounded-bl-lg" />
     </div>
   );
 }
 
-function ContactCard({ icon, iconBg, title, detail, actionColor, href }: any) {
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className="flex-1 bg-[#131313] rounded-lg border border-[#1f1f1f] p-4 flex flex-col justify-center gap-3 hover:border-[#494847] transition-all duration-300 hover:bg-[#151515] hover:scale-[1.02] hover:shadow-md cursor-pointer group overflow-hidden">
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${iconBg} transition-colors group-hover:bg-opacity-20`}>
-          {icon}
-        </div>
-        <div className="min-w-0">
-          <h3 className="font-display text-[13px] font-bold text-white uppercase tracking-wider truncate group-hover:text-white transition-colors">{title}</h3>
-          <p className="font-mono text-[9.5px] text-[#777575] mt-0.5 truncate group-hover:text-[#a1a1a1] transition-colors relative top-[1px]">{detail}</p>
-        </div>
-      </div>
-    </a>
-  );
-}
 
 const EDUCATION_ASCII = String.raw`
     __________  __  ___________  ______________  _   __
@@ -78,6 +95,7 @@ const EDUCATION_ASCII = String.raw`
 `;
 
 export default function Education() {
+  const { isOpen } = useSidebar();
   const navigate = useNavigate();
   const [history, setHistory] = useState<{ cmd?: string; out: React.ReactNode | string; isSystem?: boolean }[]>([
     {
@@ -100,6 +118,16 @@ export default function Education() {
 
   useEffect(() => {
     setLastLogin(new Date().toString().split(' GMT')[0]);
+
+    // Auto-measure content height on exactly paint
+    const timer = setTimeout(() => {
+      if (topPaneRef.current) {
+        const h = topPaneRef.current.scrollHeight;
+        setTopHeight(h);
+        setMinTopHeight(h);
+      }
+    }, 150);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -200,7 +228,7 @@ export default function Education() {
                 <div className="text-[#a1faff]">PERIOD:</div>
                 <div className="text-white">Sept 2025 — April 2030</div>
                 <div className="text-[#a1faff]">FOCUS:</div>
-                <div className="text-[#cccccc]">Advanced algorithms, software architecture, and computer science fundamentals.</div>
+                <div className="text-[#cccccc]">Focused on software development, algorithms, and systems design, with strong emphasis on real-world applications through hands-on projects and problem solving.</div>
               </div>
             </div>
           );
@@ -214,7 +242,7 @@ export default function Education() {
                 <div className="text-[#a1faff]">PERIOD:</div>
                 <div className="text-white">Sept 2025 — April 2030</div>
                 <div className="text-[#a1faff]">FOCUS:</div>
-                <div className="text-[#cccccc]">Double degree program bridging technology and executive business strategy.</div>
+                <div className="text-[#cccccc]">Covers core business fundamentals including finance, strategy, and operations, with a focus on decision-making, leadership, and real-world business applications.</div>
               </div>
             </div>
           );
@@ -228,7 +256,7 @@ export default function Education() {
                 <div className="text-[#a1faff]">PERIOD:</div>
                 <div className="text-white">Sept 2021 — June 2025</div>
                 <div className="text-[#a1faff]">FOCUS:</div>
-                <div className="text-[#cccccc]">Built foundational skills in mathematics and computer sciences, participating in collaborative STEM initiatives.</div>
+                <div className="text-[#cccccc]">A selective program for high-achieving students emphasizing advanced academics, critical thinking, and enriched coursework across subjects.</div>
               </div>
             </div>
           );
@@ -245,7 +273,13 @@ export default function Education() {
   };
 
   return (
-    <div className="min-h-full h-full grid grid-cols-1 xl:grid-cols-[1fr_260px] bg-[#0a0a0a]" onClick={() => inputRef.current?.focus()}>
+    <div 
+      className={`min-h-full h-full grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
+        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+      `} 
+      onClick={(e) => { if (!(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus(); }}
+    >
+      <style>{SCROLLBAR_STYLE}</style>
 
       {/* Main Content - Terminal Full Screen */}
       <div className="flex flex-col h-full w-full overflow-hidden border-r border-[#1f1f1f]">
@@ -257,8 +291,8 @@ export default function Education() {
             <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
             <span className="w-3 h-3 rounded-full bg-[#28c840]" />
           </div>
-          <div className="font-mono text-[9px] md:text-[11px] text-[#777575] tracking-widest text-center flex-1 font-bold">
-            TERMINAL — EDUCATION
+          <div className="font-mono text-[9px] md:text-[11px] text-[#777575] tracking-widest text-center flex-1 font-bold uppercase">
+            TERMINAL — EDUCATION SH
           </div>
           <div className="flex-1 flex justify-end items-center gap-2 font-mono text-[9px] text-[#777575] tracking-widest pl-2">
             <span className="w-2 h-2 rounded-full bg-[#00fc40]" />
@@ -275,28 +309,82 @@ export default function Education() {
             style={{ height: `${topHeight}px` }}
             className="w-full shrink-0 overflow-hidden bg-[#0a0a0a]"
           >
-            <div className="px-4 md:px-8 pt-3 pb-3 h-full overflow-y-auto overflow-x-hidden scrollbar-hide select-none transition-all">
-              <div className="font-mono text-[10px] sm:text-[11px] leading-relaxed text-[#777575] flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <div className="px-4 md:px-8 pt-3 pb-3 h-full overflow-y-auto overflow-x-hidden select-none transition-all custom-scrollbar relative">
+              {/* Back Button - Absolute Positioned to avoid layout shift */}
+              <div
+                onClick={() => {
+                  setHistory(prev => [...prev, { out: "Navigating to ROOT...", isSystem: true }]);
+                  setTimeout(() => navigate('/'), 400);
+                }}
+                className="absolute top-6 right-10 z-50 flex flex-col items-center gap-1.5 group cursor-pointer"
+              >
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300">
+                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: 'pixelated' }} className="opacity-80 group-hover:opacity-100 transition-opacity">
+                    <path d="M10 32L34 8V22H54V42H34V56L10 32Z" fill="white" />
+                    <rect x="36" y="24" width="12" height="16" fill="rgba(0,0,0,0.2)" />
+                  </svg>
+                  <div className="absolute inset-0 bg-white/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+                <span className="font-mono text-[10px] md:text-[12px] text-[#777575] text-center group-hover:bg-white group-hover:text-black px-2 py-0.5 transition-all uppercase tracking-widest leading-none">
+                  BACK.EXE
+                </span>
+              </div>
+
+              <div className="font-mono text-[10px] sm:text-[11px] leading-relaxed text-[#777575] flex flex-row items-center justify-between gap-1 mb-2 pr-28">
                 <div className="flex sm:gap-4 flex-col sm:flex-row">
                   <span>[SYSTEM]: Education Archives</span>
                   <span className="text-white">Login: {lastLogin || 'initiating...'}</span>
                 </div>
-                <span className="text-[#a1a1a1] hidden md:block">Type 'help' for commands.</span>
+                <span className="text-[#a1a1a1] hidden md:block text-[10px]">Type 'help' for commands.</span>
               </div>
 
-              <div className="text-gray-300 font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight mb-6 select-none sm:block">
+              <div className="ascii-title-filled font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight mb-4 select-none sm:block">
                 <pre>{EDUCATION_ASCII}</pre>
               </div>
+              {/* Education Timeline Body 4.0 */}
+              <div className="flex flex-col gap-6 mt-4 w-full max-w-6xl pb-12">
+                {/* Row 1: Double Degree (Side-by-Side) */}
+                <div className="flex flex-col sm:flex-row gap-6 w-full">
+                  <EduEntry
+                    label="University of Waterloo"
+                    subtitle="Computer Science (BCS)"
+                    period="SEP 2025 — 2030"
+                    description="Focused on software development, algorithms, and systems design, with strong emphasis on real-world applications through hands-on projects and problem solving."
+                    themeColor="from-black to-black"
+                    institutionIcon="/waterloo.png"
+                    isMini={true}
+                    showBadge={true}
+                    onClick={() => handleCommand({ target: { value: 'cat waterloo' }, preventDefault: () => { } } as any)}
+                  />
+                  <EduEntry
+                    label="Lazaridis School of Business and Economics (Laurier)"
+                    subtitle="Business Administration (BBA)"
+                    period="SEP 2025 — 2030"
+                    description="Covers core business fundamentals including finance, strategy, and operations, with a focus on decision-making, leadership, and real-world business applications."
+                    themeColor="from-black to-black"
+                    institutionIcon="/laz.png"
+                    isMini={true}
+                    showBadge={true}
+                    onClick={() => handleCommand({ target: { value: 'cat laurier' }, preventDefault: () => { } } as any)}
+                  />
+                </div>
 
-              {/* Education Grid */}
-              <div className="flex flex-wrap gap-4 md:gap-8 max-w-4xl px-2 mt-1">
-                <EduIcon label="BACK" ext="exe" imageKey="back" onClick={() => {
-                  setHistory(prev => [...prev, { out: "Navigating to ROOT...", isSystem: true }]);
-                  setTimeout(() => navigate('/'), 400);
-                }} />
-                <EduIcon label="WATERLOO" ext="edu" imageKey="retro_grad_cap" onClick={() => handleCommand({ target: { value: 'cat waterloo' }, preventDefault: () => { } } as any)} />
-                <EduIcon label="LAURIER" ext="edu" imageKey="retro_id_badge" onClick={() => handleCommand({ target: { value: 'cat laurier' }, preventDefault: () => { } } as any)} />
-                <EduIcon label="WOODLANDS" ext="edu" imageKey="education" onClick={() => handleCommand({ target: { value: 'cat woodlands' }, preventDefault: () => { } } as any)} />
+                {/* Row 2: Secondary School (Centered) */}
+                <div className="flex justify-center w-full mt-2">
+                  <div className="w-full sm:w-[calc(50%-12px)]">
+                    <EduEntry
+                      label="The Woodlands Secondary"
+                      subtitle="Diploma (OSSD) with Distinction"
+                      period="2021 — 2025"
+                      description="A selective program for high-achieving students emphasizing advanced academics, critical thinking, and enriched coursework across subjects."
+                      themeColor="from-black to-black"
+                      institutionIcon="/woods.png"
+                      isMini={false}
+                      onClick={() => handleCommand({ target: { value: 'cat woodlands' }, preventDefault: () => { } } as any)}
+                    />
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -316,7 +404,7 @@ export default function Education() {
               {history.map((h, i) => (
                 <div key={i} className="w-full">
                   <div className="flex items-center gap-2">
-                    <span className="text-white shrink-0 font-bold">admin@shourya:~$</span>
+                    <span className="text-white shrink-0 font-bold">admin@shourya:~/education$</span>
                     <span className="text-gray-300 relative top-0.5">{h.cmd}</span>
                   </div>
                   {h.out && (
@@ -331,7 +419,7 @@ export default function Education() {
 
             {/* Terminal Input */}
             <form onSubmit={handleCommand} className="px-4 md:px-8 py-4 md:py-5 border-t border-[#1f1f1f] font-mono text-[12px] md:text-[14px] flex items-center gap-2 shrink-0 relative bg-[#0a0a0a] z-30">
-              <span className="text-white font-bold whitespace-nowrap">admin@shourya:~$</span>
+              <span className="text-white font-bold whitespace-nowrap">admin@shourya:~/education$</span>
               <input
                 ref={inputRef}
                 type="text"
@@ -348,61 +436,7 @@ export default function Education() {
         </div>
       </div>
 
-      {/* Right Sidebar - Contact/Comms */}
-      <div className="bg-[#0a0a0a] flex flex-col border-t border-[#1f1f1f] xl:border-t-0 z-10 overflow-hidden">
-        <div className="p-4 lg:p-6 flex-1 flex flex-col h-full overflow-hidden">
-          <h2 className="font-display text-[10px] font-bold text-[#a1faff] tracking-widest flex items-center gap-2 mb-4 uppercase shrink-0">
-            <Link2 size={14} /> COMMS_LINK.SYS
-          </h2>
-
-          <div className="flex flex-col gap-3 flex-1 min-h-0 text-[#777575]">
-            <ContactCard
-              icon={<Github size={20} />}
-              iconBg="bg-[#ffffff]/10 text-white"
-              title="GITHUB.COM"
-              detail="shourya-sh"
-              href="https://github.com/shourya-sh"
-            />
-            <ContactCard
-              icon={<Linkedin size={20} />}
-              iconBg="bg-[#a1faff]/10 text-[#a1faff]"
-              title="LINKEDIN"
-              detail="/in/shourya-sheth"
-              href="https://www.linkedin.com/in/shourya-sheth-98a09b300/"
-            />
-            <ContactCard
-              icon={<Instagram size={20} />}
-              iconBg="bg-[#ac89ff]/10 text-[#ac89ff]"
-              title="INSTAGRAM"
-              detail="@shourya.s21"
-              href="https://www.instagram.com/shourya.s21/"
-            />
-            <ContactCard
-              icon={<Mail size={20} />}
-              iconBg="bg-[#febc2e]/10 text-[#febc2e]"
-              title="SECURE_EMAIL"
-              detail="shourya.sh7@..."
-              href="mailto:shourya.sh7@gmail.com"
-            />
-
-            <button onClick={() => navigate('/contact')} className="flex-1 mt-1 w-full bg-[#131313] border border-[#1f1f1f] rounded-lg p-4 flex flex-col items-center justify-center hover:border-[#494847] hover:bg-[#151515] transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group cursor-pointer">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-10 h-10 rounded bg-[#ff5f57]/10 flex items-center justify-center">
-                  <Send size={18} className="text-[#ff5f57]" />
-                </div>
-                <span className="font-display text-[12px] font-bold text-white tracking-widest uppercase relative top-[1px]">TRANSMIT_MSG</span>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Footer Sys Log */}
-        <div className="p-4 lg:p-6 border-t border-[#1f1f1f] font-mono text-[8.5px] text-[#494847] leading-loose shrink-0">
-          <p>{`> COMMS: Interfaces bound.`}</p>
-          <p>{`> COMMS: Uplink established.`}</p>
-          <p className="animate-pulse">{`> SYS_LOG: Awaiting input_`}</p>
-        </div>
-      </div>
+      <RightSidebar />
 
     </div>
   );
