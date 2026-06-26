@@ -57,37 +57,37 @@ function ExperienceItem({ role, company, period, description, theme, tag, isLast
   const styles = getThemeStyles();
 
   return (
-    <div className={`flex gap-6 group transition-all duration-500 ${isLast ? '' : 'mb-8'}`}>
-      <div className="flex flex-col items-center shrink-0 w-5">
-        <div className={`w-3 h-3 rounded-full mt-4 shrink-0 transition-all duration-300 ${styles.node}`} />
-        {!isLast && <div className={`w-[2px] grow bg-gradient-to-b mt-2 mb-[-32px] ${styles.line}`} />}
+    <div className={`flex gap-3 xl:gap-6 group transition-all duration-500 ${isLast ? '' : 'mb-4 xl:mb-8'}`}>
+      <div className="flex flex-col items-center shrink-0 w-4 xl:w-5">
+        <div className={`w-2.5 h-2.5 xl:w-3 xl:h-3 rounded-full mt-3 xl:mt-4 shrink-0 transition-all duration-300 ${styles.node}`} />
+        {!isLast && <div className={`w-[2px] grow bg-gradient-to-b mt-2 mb-[-16px] xl:mb-[-32px] ${styles.line}`} />}
       </div>
       
       <div className={`flex-1 bg-[#101010]/80 rounded-xl overflow-hidden border border-[#1f1f1f] group-hover:border-[#1f1f1f]/80 group-hover:bg-[#131313] transition-all duration-300 ${styles.glow} backdrop-blur-sm relative`}>
         <div className="absolute top-0 right-0 w-8 h-8 opacity-10 bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
         
         {/* MacOS-style Window Decorator (Mini) */}
-        <div className="px-4 py-2 bg-[#181818] border-b border-[#1f1f1f] flex gap-1.5 items-center">
+        <div className="px-3 xl:px-4 py-1.5 xl:py-2 bg-[#181818] border-b border-[#1f1f1f] flex gap-1.5 items-center">
           <span className="w-2 h-2 rounded-full bg-[#ff5f57]/40" />
           <span className="w-2 h-2 rounded-full bg-[#febc2e]/40" />
           <span className="w-2 h-2 rounded-full bg-[#28c840]/40" />
           <span className="ml-2 font-mono text-[8px] text-[#494847] tracking-[0.2em] font-bold uppercase">{tag}</span>
         </div>
 
-        <div className="p-5 md:p-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start mb-3 gap-2">
-            <h3 className="font-display text-[16px] sm:text-lg font-bold text-white tracking-wide group-hover:text-[#a1faff] transition-colors">{role}</h3>
-            <div className="flex items-center gap-2 px-2.5 py-0.5 bg-[#1a1a1a] rounded border border-[#2a2a2a] group-hover:border-[#a1faff]/20 transition-all shadow-sm">
-              <Calendar size={11} className="text-[#a1faff]/60" />
-              <span className="text-[10px] text-[#777575] font-mono whitespace-nowrap uppercase tracking-tighter">{period}</span>
+        <div className="p-3 xl:p-5 2xl:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start mb-2 xl:mb-3 gap-1.5">
+            <h3 className="font-display text-[15px] xl:text-[16px] font-bold text-white tracking-wide group-hover:text-[#a1faff] transition-colors">{role}</h3>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#1a1a1a] rounded border border-[#2a2a2a] group-hover:border-[#a1faff]/20 transition-all shadow-sm shrink-0">
+              <Calendar size={10} className="text-[#a1faff]/60" />
+              <span className="text-[9px] xl:text-[10px] text-[#777575] font-mono whitespace-nowrap uppercase tracking-tighter">{period}</span>
             </div>
           </div>
           
-          <p className={`font-mono text-[11px] mb-4 font-bold border-l-2 pl-3 ${styles.companyText} border-current opacity-80 uppercase tracking-widest`}>
+          <p className={`font-mono text-[10px] xl:text-[11px] mb-2.5 xl:mb-4 font-bold border-l-2 pl-2.5 xl:pl-3 ${styles.companyText} border-current opacity-80 uppercase tracking-widest`}>
             {company}
           </p>
           
-          <p className="font-mono text-[11.5px] text-[#a1a1a1] leading-relaxed max-w-4xl italic opacity-90 border-t border-[#1f1f1f]/50 pt-3">
+          <p className="font-mono text-[11px] xl:text-[11.5px] text-[#a1a1a1] leading-relaxed max-w-4xl italic opacity-90 border-t border-[#1f1f1f]/50 pt-2.5 xl:pt-3">
             {description}
           </p>
         </div>
@@ -214,15 +214,84 @@ export default function Experience() {
   };
 
   return (
-    <div 
-      className={`min-h-full h-full grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
-        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
-      `} 
-      onClick={(e) => { if (!(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus(); }}
-    >
+    <>
+      {/* ── MOBILE LAYOUT (hidden on xl+) ──────────────────────────── */}
+      <div className="xl:hidden flex flex-col h-full bg-[#0a0a0a]">
+        {/* Header — BACK anchored left so it can never be pushed off-screen */}
+        <div className="flex items-center gap-3 px-3 py-2.5 bg-[#181818] border-b border-[#1f1f1f] shrink-0">
+          <button
+            onClick={() => navigate('/')}
+            className="font-mono text-[10px] font-bold text-white border border-[#444] bg-[#222] hover:bg-[#333] hover:border-[#a1faff]/50 hover:text-[#a1faff] px-3 py-1.5 transition-all uppercase tracking-widest shrink-0"
+          >
+            ← BACK
+          </button>
+          <span className="font-mono text-[9px] text-[#777575] tracking-widest font-bold uppercase flex-1 min-w-0 truncate text-center">EXPERIENCE LOG</span>
+          <div className="flex gap-1 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]/70" />
+          </div>
+        </div>
+
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="font-mono text-[9px] text-[#777575] mb-4 leading-relaxed">
+            <span>[SYSTEM]: Experience Modules Active &nbsp;·&nbsp; </span>
+            <span className="text-white">{lastLogin || 'initiating...'}</span>
+          </div>
+          <div className="flex flex-col gap-0 w-full pb-4">
+            <ExperienceItem
+              theme="secondary" tag="RISK_CONSULTANT"
+              role="AI Risk Consultant" company="@ EY"
+              period="May 2026 - Present"
+              description="Assist in evaluating AI enabled systems and related controls as part of Technology Risk and Assurance engagements. Focused on technology risk management and security governance."
+            />
+            <ExperienceItem
+              theme="primary" tag="MATH_INSTRUCTOR"
+              role="Mathematics Instructor" company="@ Mathnasium"
+              period="Mar 2024 - Dec 2025"
+              description="Worked with students of all ages to strengthen math skills, help with schoolwork, and build confidence through one-on-one support."
+            />
+            <ExperienceItem
+              theme="tertiary" tag="ROBOTICS_LEAD"
+              role="Robotics Instructor" company="@ Zebra Robotics"
+              period="Mar 2023 - Mar 2024"
+              description="Taught students how to build and program LEGO robots through hands-on lessons and projects. Developed curriculum for STEM enrichment and competitive robotics teams."
+            />
+            <ExperienceItem
+              theme="accent" tag="UMPIRE_OFFICIAL"
+              role="Baseball Umpire" company="@ MSBA"
+              period="2022 - Present"
+              description="Officiated competitive baseball games, making quick decisions and keeping games running smoothly in a fast-paced environment."
+              isLast
+            />
+          </div>
+        </div>
+
+        {/* Terminal input */}
+        <form onSubmit={handleCommand} className="px-4 py-3 border-t border-[#1f1f1f] font-mono text-[12px] flex items-center gap-2 shrink-0 bg-[#0a0a0a]">
+          <span className="text-white font-bold shrink-0 text-[10px] whitespace-nowrap">admin@shourya:~/experience$</span>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="bg-transparent border-none outline-none text-white grow min-w-0 font-mono tracking-wider caret-white"
+            spellCheck={false}
+            autoComplete="off"
+          />
+        </form>
+      </div>
+
+      {/* ── DESKTOP LAYOUT (hidden below xl) ──────────────────────── */}
+      <div
+        className={`hidden xl:grid h-full grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
+          ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+        `}
+        onClick={(e) => { if (!(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus(); }}
+      >
       {/* Main Content - Terminal Full Screen */}
       <div className="flex flex-col h-full w-full overflow-hidden border-r border-[#1f1f1f]">
-        
+
         {/* Terminal Top Bar */}
         <div className="flex items-center justify-between px-4 py-3 bg-[#181818] border-b border-[#1f1f1f] shrink-0 z-30">
           <div className="flex gap-1.5 flex-1">
@@ -286,9 +355,9 @@ export default function Experience() {
                 <ExperienceItem 
                   theme="secondary"
                   tag="RISK_CONSULTANT"
-                  role="Technology Risk Consultant Intern"
-                  company="@ EY - Incoming"
-                  period="May 2026 - Aug 2026"
+                  role="AI Risk Consultant"
+                  company="@ EY"
+                  period="May 2026 - Present"
                   description="Assist in evaluating AI enabled systems and related controls as part of Technology Risk and Assurance engagements. Focused on technology risk management and security governance."
                 />
                 <ExperienceItem 
@@ -374,6 +443,10 @@ export default function Experience() {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #333; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
       `}} />
-    </div>
+      </div>
+
+      {/* Mobile contact overlay (outside desktop grid so it renders on mobile) */}
+      <RightSidebar asMobileOverlay />
+    </>
   );
 }

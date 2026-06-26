@@ -87,17 +87,30 @@ const PROJECTS_DATA: Project[] = [
   },
   {
     id: 'project-3',
-    title: 'Project Gamma',
-    sysName: 'VOID_ANALYTICS',
-    subtitle: 'Mobile Application',
-    status: 'BETA',
-    description: 'A cross-platform mobile experience with native-level performance.',
-    longDescription: 'Detailed description coming soon. This project highlights mobile development capabilities and user-centric design principles.\n\nMore details will be added once the project information is provided.',
-    tags: ['RUST', 'GRAPHQL', 'AWS'],
-    thumbnail: '',
-    media: [],
-    links: [],
-    year: '2024',
+    title: 'Antifouling Bot',
+    sysName: 'ANTIFOULING',
+    subtitle: '🥈 2nd in the World @ WRO Future Innovators • 🇨🇦 First Canadian Podium Since 2014',
+    status: 'ACTIVE',
+    description: 'Autonomous magnetic-climbing robot that removes biofouling from ship hulls — 2nd place at WRO Internationals and Canada\'s first-ever podium at the World Robot Olympiad.',
+    longDescription: `The Anti-fouling Autonomous Robotics Mitigation System (A-FARM) is an autonomous robot designed to combat biofouling — the accumulation of microorganisms, algae, and bacteria on underwater surfaces such as vessels, oil rigs, and marine infrastructure.\n\nThe robot autonomously maneuvers around ship hulls using magnetic wheels, cleaning biofouling without toxic chemicals. This tackles critical maritime challenges:\n• Increasing operational efficiency by minimizing drag and improving manoeuvrability\n• Reducing maintenance and fuel costs associated with traditional cleaning methods\n• Significantly improving fuel efficiency and reducing greenhouse gas emissions\n• Stopping the spread of invasive species that harm local communities and food chains\n• Eliminating reliance on harmful toxic anti-fouling chemicals that leach into waterways\n\nBuilt with Fusion 360 for chassis and cleaning system design, 3D-printed components, and Arduino-based control — moving beyond Lego robotics into industrial-grade hardware that can actually benefit the world.\n\nThe team is currently developing a more industrial prototype adaptable to diverse underwater marine infrastructure beyond boat hulls.`,
+    tags: ['ARDUINO', 'C++', 'FUSION 360', 'ROBOTICS', '3D PRINTING'],
+    thumbnail: '/antifouling_trophy.jpg',
+    media: [
+      { type: 'image' as const, src: '/antifouling_trophy.jpg', caption: '2nd place at WRO Future Innovators — Senior category, Panama 2023' },
+      { type: 'image' as const, src: '/antifouling_presentation.jpg', caption: 'Presenting the biofouling mitigation system to WRO judges' },
+      { type: 'image' as const, src: '/antifouling_podium_stage.jpg', caption: 'WRO Panama 2023 awards stage — Canada\'s first podium at WRO Internationals since 2014' },
+      { type: 'image' as const, src: '/antifouling_team_robot.jpg', caption: 'Team with the AntiFouling robot and WRO certificates' },
+    ],
+    links: [
+      { label: 'Zebra Robotics Feature', url: 'https://blog.zebrarobotics.com/writing-history-today-for-the-competitors-of-tomorrow/', icon: 'external' as const },
+      { label: 'Ingenious+ Program', url: 'https://ingeniousplus.ca/', icon: 'external' as const },
+    ],
+    awards: [
+      '🥈 2nd Place in the World — WRO Future Innovators (Senior), Panama 2023',
+      '🇨🇦 First-Ever Canadian Podium at WRO Internationals Since 2014',
+      '💰 $1,000 Regional Winner — Ingenious+ Grant, Presented by Lieutenant Governor Edith Dumont',
+    ],
+    year: '2023',
   },
   {
     id: 'project-4',
@@ -539,18 +552,72 @@ export default function Projects() {
   }, [isDragging, onDrag, stopDragging]);
 
   return (
-    <div 
-      className={`min-h-full h-full grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
-        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
-      `} 
-      onClick={(e) => { 
-        if (!selectedProject && !(e.target as HTMLElement).closest('input, textarea, button, a')) {
-          inputRef.current?.focus(); 
-        }
-      }}
-    >
+    <>
+      {/* ── MOBILE LAYOUT (hidden on xl+) ──────────────────────────── */}
+      <div className="xl:hidden flex flex-col h-full bg-[#0a0a0a]">
+        {/* Header — BACK anchored left so it can never be pushed off-screen */}
+        <div className="flex items-center gap-3 px-3 py-2.5 bg-[#181818] border-b border-[#1f1f1f] shrink-0">
+          <button
+            onClick={() => navigate('/')}
+            className="font-mono text-[10px] font-bold text-white border border-[#444] bg-[#222] hover:bg-[#333] hover:border-[#a1faff]/50 hover:text-[#a1faff] px-3 py-1.5 transition-all uppercase tracking-widest shrink-0"
+          >
+            ← BACK
+          </button>
+          <span className="font-mono text-[9px] text-[#777575] tracking-widest font-bold uppercase flex-1 min-w-0 truncate text-center">PROJECTS</span>
+          <div className="flex gap-1 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]/70" />
+          </div>
+        </div>
+
+        {/* Scrollable project cards */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="font-mono text-[9px] text-[#777575] mb-4 leading-relaxed">
+            <span>[SYSTEM]: Project Modules Active &nbsp;·&nbsp; </span>
+            <span className="text-white">{lastLogin}</span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 pb-4">
+            {PROJECTS_DATA.map((p) => (
+              <ProjectCard
+                key={p.id}
+                project={p}
+                onClick={() => {
+                  setSelectedProject(p);
+                  setHistory(prev => [...prev, { cmd: `run ${p.sysName.toLowerCase()}`, out: `Initializing graphical display for ${p.sysName}...` }]);
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Terminal input */}
+        <form onSubmit={handleCommand} className="px-4 py-3 border-t border-[#1f1f1f] font-mono text-[12px] flex items-center gap-2 shrink-0 bg-[#0a0a0a]">
+          <span className="text-white font-bold shrink-0 text-[10px] whitespace-nowrap">admin@shourya:~/projects$</span>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="bg-transparent border-none outline-none text-white grow min-w-0 font-mono tracking-wider caret-white"
+            spellCheck={false}
+            autoComplete="off"
+          />
+        </form>
+      </div>
+
+      {/* ── DESKTOP LAYOUT (hidden below xl) ──────────────────────── */}
+      <div
+        className={`hidden xl:grid h-full grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
+          ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+        `}
+        onClick={(e) => {
+          if (!selectedProject && !(e.target as HTMLElement).closest('input, textarea, button, a')) {
+            inputRef.current?.focus();
+          }
+        }}
+      >
       <div className="flex flex-col h-full w-full overflow-hidden border-r border-[#1f1f1f]">
-        
+
         {/* Terminal Top Bar */}
         <div className="flex items-center justify-between px-4 py-3 bg-[#181818] border-b border-[#1f1f1f] shrink-0 z-30">
           <div className="flex gap-1.5 flex-1">
@@ -672,13 +739,6 @@ export default function Projects() {
       </div>
       <RightSidebar />
 
-      {selectedProject && (
-        <ProjectModal project={selectedProject} onClose={() => {
-          setSelectedProject(null);
-          setTimeout(() => inputRef.current?.focus(), 50);
-        }} />
-      )}
-
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -690,6 +750,17 @@ export default function Projects() {
           to { opacity: 1; transform: scale(1); }
         }
       `}} />
-    </div>
+      </div>
+
+      {selectedProject && (
+        <ProjectModal project={selectedProject} onClose={() => {
+          setSelectedProject(null);
+          setTimeout(() => inputRef.current?.focus(), 50);
+        }} />
+      )}
+
+      {/* Mobile contact overlay (outside desktop grid so it renders on mobile) */}
+      <RightSidebar asMobileOverlay />
+    </>
   );
 }

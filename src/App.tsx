@@ -19,7 +19,7 @@ function App() {
       
       {booted && (
         <div className="flex h-[100dvh] w-screen bg-[#0e0e0e] overflow-hidden">
-          <main className="flex-1 animate-[fadeIn_0.5s_ease-out] relative h-full w-full overflow-y-auto">
+          <main className="flex-1 animate-[fadeIn_0.5s_ease-out] relative h-full w-full overflow-hidden">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/projects" element={<Projects />} />

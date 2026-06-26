@@ -310,12 +310,91 @@ export default function Games() {
   };
 
   return (
-    <div 
-      className={`min-h-full h-full grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
-        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
-      `} 
-      onClick={(e) => { if (gameState !== 'PLAYING' && !(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus() }}
-    >
+    <>
+      {/* ── MOBILE LAYOUT (hidden on xl+) ──────────────────────────── */}
+      <div className="xl:hidden flex flex-col h-full bg-[#0a0a0a]">
+        {/* Header — BACK anchored left, hidden during active gameplay */}
+        {gameState !== 'PLAYING' && (
+          <div className="flex items-center gap-3 px-3 py-2.5 bg-[#181818] border-b border-[#1f1f1f] shrink-0">
+            <button
+              onClick={() => navigate('/')}
+              className="font-mono text-[10px] font-bold text-white border border-[#444] bg-[#222] hover:bg-[#333] hover:border-[#a1faff]/50 hover:text-[#a1faff] px-3 py-1.5 transition-all uppercase tracking-widest shrink-0"
+            >
+              ← BACK
+            </button>
+            <span className="font-mono text-[9px] text-[#777575] tracking-widest font-bold uppercase flex-1 min-w-0 truncate text-center">MINI GAMES</span>
+            <div className="flex gap-1 shrink-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]/70" />
+            </div>
+          </div>
+        )}
+
+        {gameState === 'PLAYING' ? (
+          /* Game canvas view */
+          <div className="flex-1 flex flex-col h-full bg-[#050505] relative">
+            <div className="absolute top-4 right-4 z-50">
+              <button onClick={quitGame} className="flex items-center gap-1 font-mono text-[10px] text-[#ff5f57] hover:text-white transition-colors uppercase tracking-widest bg-black/50 px-2 py-1 rounded border border-[#ff5f57]/30">
+                <X size={14} /> SIGKILL
+              </button>
+            </div>
+            <div className="flex-1 flex items-center justify-center p-4">
+              {activeGame === 'SNAKE' && <SnakeGame difficulty={difficulty} onExit={quitGame} />}
+              {activeGame === 'PONG' && <PongGame difficulty={difficulty} onExit={quitGame} />}
+              {activeGame === 'DINO' && <DinoGame difficulty={difficulty} onExit={quitGame} />}
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Scrollable game icons + history */}
+            <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <div className="font-mono text-[9px] text-[#777575] mb-3 leading-relaxed">
+                <span>[SYSTEM]: Game Modules Active &nbsp;·&nbsp; </span>
+                <span className="text-white">{lastLogin || 'initiating...'}</span>
+              </div>
+              <div className="flex flex-wrap gap-4 mb-4">
+                <GameIcon label="SNAKE" imageKey="snake" onClick={() => triggerGameLaunch('SNAKE')} />
+                <GameIcon label="PONG" imageKey="pong" onClick={() => triggerGameLaunch('PONG')} />
+                <GameIcon label="DINO" imageKey="dino" onClick={() => triggerGameLaunch('DINO')} />
+              </div>
+              {history.length > 0 && (
+                <div className="font-mono text-[11px] flex flex-col gap-1 border-t border-[#1f1f1f] pt-3">
+                  {history.slice(-4).map((h, i) => (
+                    <div key={i}>
+                      {h.cmd && <div className="flex gap-2"><span className="text-white font-bold shrink-0">admin@shourya:~/games$</span><span className="text-gray-300">{h.cmd}</span></div>}
+                      {h.out && <div className="text-[#a1faff] whitespace-pre-wrap ml-0">{h.out}</div>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Terminal input */}
+            <form onSubmit={handleCommand} className="px-4 py-3 border-t border-[#1f1f1f] font-mono text-[12px] flex items-center gap-2 shrink-0 bg-[#0a0a0a]">
+              <span className="text-white font-bold shrink-0 text-[10px] whitespace-nowrap">
+                {gameState === 'AWAITING_DIFFICULTY' ? `${activeGame?.toLowerCase()}/difficulty>` : 'admin@shourya:~/games$'}
+              </span>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="bg-transparent border-none outline-none text-white grow min-w-0 font-mono tracking-wider caret-white"
+                spellCheck={false}
+                autoComplete="off"
+              />
+            </form>
+          </>
+        )}
+      </div>
+
+      {/* ── DESKTOP LAYOUT (hidden below xl) ──────────────────────── */}
+      <div
+        className={`hidden xl:grid h-full grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
+          ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+        `}
+        onClick={(e) => { if (gameState !== 'PLAYING' && !(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus() }}
+      >
 
       {/* Main Content - Terminal Full Screen */}
       <div className="flex flex-col h-full w-full overflow-hidden border-r border-[#1f1f1f]">
@@ -447,6 +526,10 @@ export default function Games() {
         </div>
       </div>
       <RightSidebar />
-    </div>
+      </div>
+
+      {/* Mobile contact overlay (outside desktop grid so it renders on mobile) */}
+      <RightSidebar asMobileOverlay />
+    </>
   );
 }

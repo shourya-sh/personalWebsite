@@ -273,13 +273,92 @@ export default function Education() {
   };
 
   return (
-    <div 
-      className={`min-h-full h-full grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
-        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
-      `} 
-      onClick={(e) => { if (!(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus(); }}
-    >
+    <>
       <style>{SCROLLBAR_STYLE}</style>
+
+      {/* ── MOBILE LAYOUT (hidden on xl+) ──────────────────────────── */}
+      <div className="xl:hidden flex flex-col h-full bg-[#0a0a0a]">
+        {/* Header — BACK anchored left so it can never be pushed off-screen */}
+        <div className="flex items-center gap-3 px-3 py-2.5 bg-[#181818] border-b border-[#1f1f1f] shrink-0">
+          <button
+            onClick={() => navigate('/')}
+            className="font-mono text-[10px] font-bold text-white border border-[#444] bg-[#222] hover:bg-[#333] hover:border-[#a1faff]/50 hover:text-[#a1faff] px-3 py-1.5 transition-all uppercase tracking-widest shrink-0"
+          >
+            ← BACK
+          </button>
+          <span className="font-mono text-[9px] text-[#777575] tracking-widest font-bold uppercase flex-1 min-w-0 truncate text-center">EDUCATION</span>
+          <div className="flex gap-1 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]/70" />
+          </div>
+        </div>
+
+        {/* Scrollable education cards */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="font-mono text-[9px] text-[#777575] mb-4 leading-relaxed">
+            <span>[SYSTEM]: Education Archives &nbsp;·&nbsp; </span>
+            <span className="text-white">{lastLogin || 'initiating...'}</span>
+          </div>
+          <div className="flex flex-col gap-6 w-full pb-4">
+            <div className="flex flex-col gap-4 w-full">
+              <EduEntry
+                label="University of Waterloo"
+                subtitle="Computer Science (BCS)"
+                period="SEP 2025 — 2030"
+                description="Focused on software development, algorithms, and systems design, with strong emphasis on real-world applications through hands-on projects and problem solving."
+                themeColor="from-black to-black"
+                institutionIcon="/waterloo.png"
+                isMini={false}
+                showBadge={true}
+                onClick={() => handleCommand({ target: { value: 'cat waterloo' }, preventDefault: () => {} } as any)}
+              />
+              <EduEntry
+                label="Lazaridis School of Business (Laurier)"
+                subtitle="Business Administration (BBA)"
+                period="SEP 2025 — 2030"
+                description="Covers core business fundamentals including finance, strategy, and operations, with a focus on decision-making, leadership, and real-world business applications."
+                themeColor="from-black to-black"
+                institutionIcon="/laz.png"
+                isMini={false}
+                showBadge={true}
+                onClick={() => handleCommand({ target: { value: 'cat laurier' }, preventDefault: () => {} } as any)}
+              />
+              <EduEntry
+                label="The Woodlands Secondary"
+                subtitle="Diploma (OSSD) with Distinction"
+                period="2021 — 2025"
+                description="A selective program for high-achieving students emphasizing advanced academics, critical thinking, and enriched coursework across subjects."
+                themeColor="from-black to-black"
+                institutionIcon="/woods.png"
+                isMini={false}
+                onClick={() => handleCommand({ target: { value: 'cat woodlands' }, preventDefault: () => {} } as any)}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Terminal input */}
+        <form onSubmit={handleCommand} className="px-4 py-3 border-t border-[#1f1f1f] font-mono text-[12px] flex items-center gap-2 shrink-0 bg-[#0a0a0a]">
+          <span className="text-white font-bold shrink-0 text-[10px] whitespace-nowrap">admin@shourya:~/education$</span>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="bg-transparent border-none outline-none text-white grow min-w-0 font-mono tracking-wider caret-white"
+            spellCheck={false}
+            autoComplete="off"
+          />
+        </form>
+      </div>
+
+      {/* ── DESKTOP LAYOUT (hidden below xl) ──────────────────────── */}
+      <div
+        className={`hidden xl:grid h-full grid-cols-1 transition-all duration-300 ease-in-out bg-[#0a0a0a]
+          ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+        `}
+        onClick={(e) => { if (!(e.target as HTMLElement).closest('input, textarea, button, a')) inputRef.current?.focus(); }}
+      >
 
       {/* Main Content - Terminal Full Screen */}
       <div className="flex flex-col h-full w-full overflow-hidden border-r border-[#1f1f1f]">
@@ -438,6 +517,10 @@ export default function Education() {
 
       <RightSidebar />
 
-    </div>
+      </div>
+
+      {/* Mobile contact overlay (outside desktop grid so it renders on mobile) */}
+      <RightSidebar asMobileOverlay />
+    </>
   );
 }

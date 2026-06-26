@@ -60,7 +60,7 @@ function ResumeContent() {
           <div className="opacity-50 mt-1 mb-2">{LINE}</div>
           <div className="space-y-4">
             <div>
-              <JL left={<B>Incoming Technology Risk Management Consultant — EY Assurance, Toronto</B>} right="May 2026 – Present" />
+              <JL left={<B>AI Risk Consultant — EY Assurance, Toronto</B>} right="May 2026 – Present" />
               <div className="mt-1 space-y-0.5">
                 <div>- Support assessments of AI governance, risk, and control frameworks focusing on Responsible AI</div>
                 <div>- Evaluate AI-enabled systems and related controls for Technology Risk and Assurance engagements</div>
@@ -152,96 +152,159 @@ export default function Resume() {
   };
 
   return (
-    <div 
-      className={`h-screen grid grid-cols-1 transition-all duration-300 ease-in-out bg-[#050505] selection:bg-black selection:text-white print:bg-white
-        ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
-      `}
-    >
-      <div className="flex flex-col items-center overflow-y-auto overflow-x-hidden relative h-full w-full">
-        {/* Top Section: ASCII Header + Back Button + Action Buttons */}
-        <div className="w-full max-w-4xl px-4 md:px-8 pt-6 pb-4 z-50 print:hidden animate-[fadeIn_0.6s_ease-out] relative">
-          
-          {/* Back Button - Pixel Arrow (Top Right) */}
-          <div 
+    <>
+      {/* ── MOBILE LAYOUT (hidden on xl+) ──────────────────────────── */}
+      <div className="xl:hidden flex flex-col h-full bg-[#050505] selection:bg-black selection:text-white">
+        {/* Header — BACK anchored left so it can never be pushed off-screen */}
+        <div className="flex items-center gap-3 px-3 py-2.5 bg-[#111] border-b border-[#1f1f1f] shrink-0">
+          <button
             onClick={() => navigate('/')}
-            className="absolute top-6 right-8 z-50 flex flex-col items-center gap-1.5 group cursor-pointer"
+            className="font-mono text-[10px] font-bold text-white border border-[#444] bg-[#222] hover:bg-[#333] hover:border-[#a1faff]/50 hover:text-[#a1faff] px-3 py-1.5 transition-all uppercase tracking-widest shrink-0"
           >
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300">
-              <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: 'pixelated' } as any} className="opacity-80 group-hover:opacity-100 transition-opacity">
-                <path d="M10 32L34 8V22H54V42H34V56L10 32Z" fill="white" />
-                <rect x="36" y="24" width="12" height="16" fill="rgba(0,0,0,0.2)" />
-              </svg>
-              <div className="absolute inset-0 bg-white/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-            <span className="font-mono text-[10px] md:text-[12px] text-[#777575] text-center group-hover:bg-white group-hover:text-black px-2 py-0.5 transition-all uppercase tracking-widest leading-none">
-              BACK.EXE
-            </span>
-          </div>
-
-          {/* ASCII Header */}
-          <div className="ascii-title-filled font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight mb-4 select-none pr-28">
-            <pre>{RESUME_ASCII}</pre>
-          </div>
-
-          {/* Action Buttons Row */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <a 
-              href="/Resume.pdf" 
-              download 
-              className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 hover:bg-[#151515] transition-all font-mono text-[10px] uppercase tracking-widest group"
-            >
-              <Download size={12} className="group-hover:text-[#a1faff] transition-colors" /> DOWNLOAD.PDF
-            </a>
-            <a 
-              href="/resume.tex" 
-              download 
-              className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 hover:bg-[#151515] transition-all font-mono text-[10px] uppercase tracking-widest group"
-            >
-              <Code size={12} className="group-hover:text-[#a1faff] transition-colors" /> SOURCE.TEX
-            </a>
-            <button 
-              onClick={handlePrint}
-              className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 hover:bg-[#151515] transition-all font-mono text-[10px] uppercase tracking-widest group"
-            >
-              <Printer size={12} className="group-hover:text-[#a1faff] transition-colors" /> PRINT.EXE
-            </button>
+            ← BACK
+          </button>
+          <span className="font-mono text-[9px] text-[#777575] tracking-widest font-bold uppercase flex-1 min-w-0 truncate text-center">RESUME</span>
+          <div className="flex gap-1 shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]/70" />
           </div>
         </div>
 
-        {/* The "Paper" Document Wrapper */}
-        <div className={`w-full max-w-4xl px-4 pb-20 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          
-          {/* Subtle decorative shadow container */}
-          <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#ffffff10] to-[#ffffff05] rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-            
-            {/* Main Paper Content */}
-            <div className="relative bg-white text-black p-6 md:p-10 lg:p-14 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.8)] font-mono leading-relaxed overflow-hidden">
-              
-              {/* Paper Texture Overlay */}
-              <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] mix-blend-multiply" />
-              
-              {/* Very subtle CRT/Print Scanline effect for that retro feel */}
+        {/* Action buttons row */}
+        <div className="flex items-center gap-2 px-4 py-2 border-b border-[#1f1f1f] shrink-0 flex-wrap">
+          <a
+            href="/Resume.pdf"
+            download
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 transition-all font-mono text-[9px] uppercase tracking-widest"
+          >
+            <Download size={10} /> PDF
+          </a>
+          <a
+            href="/resume.tex"
+            download
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 transition-all font-mono text-[9px] uppercase tracking-widest"
+          >
+            <Code size={10} /> TEX
+          </a>
+          <button
+            onClick={handlePrint}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 transition-all font-mono text-[9px] uppercase tracking-widest"
+          >
+            <Printer size={10} /> PRINT
+          </button>
+        </div>
+
+        {/* Scrollable resume paper */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className={`transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+            <div className="relative bg-white text-black p-5 shadow-[0_10px_40px_rgba(0,0,0,0.6)] font-mono leading-relaxed overflow-hidden mb-8">
               <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(0,0,0,0.01)_1px,transparent_1px)] bg-[length:100%_4px]" />
-
-              {/* Resume Content */}
               <ResumeContent />
-
-              {/* Bottom Margin for realism */}
-              <div className="h-6" />
+              <div className="h-4" />
             </div>
-          </div>
-
-          {/* Action Footer (Mobile only/convenience) */}
-          <div className="mt-12 text-center text-[#333] font-mono text-[10px] tracking-[0.3em] uppercase print:hidden">
-            —— End of Document ——
+            <div className="text-center text-[#333] font-mono text-[10px] tracking-[0.3em] uppercase pb-4">
+              —— End of Document ——
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="print:hidden">
-        <RightSidebar />
+      {/* ── DESKTOP LAYOUT (hidden below xl) ──────────────────────── */}
+      <div
+        className={`hidden xl:grid h-full grid-cols-1 transition-all duration-300 ease-in-out bg-[#050505] selection:bg-black selection:text-white print:bg-white
+          ${isOpen ? 'xl:grid-cols-[1fr_260px]' : 'xl:grid-cols-[1fr_0px]'}
+        `}
+      >
+        <div className="flex flex-col items-center overflow-y-auto overflow-x-hidden relative h-full w-full">
+          {/* Top Section: ASCII Header + Back Button + Action Buttons */}
+          <div className="w-full max-w-4xl px-4 md:px-8 pt-6 pb-4 z-50 print:hidden animate-[fadeIn_0.6s_ease-out] relative">
+            
+            {/* Back Button - Pixel Arrow (Top Right) */}
+            <div 
+              onClick={() => navigate('/')}
+              className="absolute top-6 right-8 z-50 flex flex-col items-center gap-1.5 group cursor-pointer"
+            >
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300">
+                <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: 'pixelated' } as any} className="opacity-80 group-hover:opacity-100 transition-opacity">
+                  <path d="M10 32L34 8V22H54V42H34V56L10 32Z" fill="white" />
+                  <rect x="36" y="24" width="12" height="16" fill="rgba(0,0,0,0.2)" />
+                </svg>
+                <div className="absolute inset-0 bg-white/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <span className="font-mono text-[10px] md:text-[12px] text-[#777575] text-center group-hover:bg-white group-hover:text-black px-2 py-0.5 transition-all uppercase tracking-widest leading-none">
+                BACK.EXE
+              </span>
+            </div>
+
+            {/* ASCII Header */}
+            <div className="ascii-title-filled font-mono text-[8.5px] sm:text-[10.5px] lg:text-[13px] leading-tight mb-4 select-none pr-28">
+              <pre>{RESUME_ASCII}</pre>
+            </div>
+
+            {/* Action Buttons Row */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <a 
+                href="/Resume.pdf" 
+                download 
+                className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 hover:bg-[#151515] transition-all font-mono text-[10px] uppercase tracking-widest group"
+              >
+                <Download size={12} className="group-hover:text-[#a1faff] transition-colors" /> DOWNLOAD.PDF
+              </a>
+              <a 
+                href="/resume.tex" 
+                download 
+                className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 hover:bg-[#151515] transition-all font-mono text-[10px] uppercase tracking-widest group"
+              >
+                <Code size={12} className="group-hover:text-[#a1faff] transition-colors" /> SOURCE.TEX
+              </a>
+              <button 
+                onClick={handlePrint}
+                className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] text-[#555] hover:text-[#a1faff] hover:border-[#a1faff]/30 hover:bg-[#151515] transition-all font-mono text-[10px] uppercase tracking-widest group"
+              >
+                <Printer size={12} className="group-hover:text-[#a1faff] transition-colors" /> PRINT.EXE
+              </button>
+            </div>
+          </div>
+
+          {/* The "Paper" Document Wrapper */}
+          <div className={`w-full max-w-4xl px-4 pb-20 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            
+            {/* Subtle decorative shadow container */}
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#ffffff10] to-[#ffffff05] rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+              
+              {/* Main Paper Content */}
+              <div className="relative bg-white text-black p-6 md:p-10 lg:p-14 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.8)] font-mono leading-relaxed overflow-hidden">
+                
+                {/* Paper Texture Overlay */}
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] mix-blend-multiply" />
+                
+                {/* Very subtle CRT/Print Scanline effect for that retro feel */}
+                <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(0,0,0,0.01)_1px,transparent_1px)] bg-[length:100%_4px]" />
+
+                {/* Resume Content */}
+                <ResumeContent />
+
+                {/* Bottom Margin for realism */}
+                <div className="h-6" />
+              </div>
+            </div>
+
+            {/* Action Footer */}
+            <div className="mt-12 text-center text-[#333] font-mono text-[10px] tracking-[0.3em] uppercase print:hidden">
+              —— End of Document ——
+            </div>
+          </div>
+        </div>
+
+        <div className="print:hidden">
+          <RightSidebar />
+        </div>
       </div>
+
+      {/* Mobile contact overlay (outside desktop grid so it renders on mobile) */}
+      <RightSidebar asMobileOverlay />
 
       {/* Global CSS for printing and scrollbars */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -250,22 +313,11 @@ export default function Resume() {
           .print\\:hidden { display: none !important; }
           .shadow-xl, .shadow-\\[0_35px_60px_-15px_rgba\\(0\\,0\\,0\\,0\\.8\\)\\] { box-shadow: none !important; }
         }
-        
-        /* Modern Scrollbar for the dark page background */
-        ::-webkit-scrollbar {
-          width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-          background: #050505;
-        }
-        ::-webkit-scrollbar-thumb {
-          background: #1a1a1a;
-          border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-          background: #222;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #222; }
       `}} />
-    </div>
+    </>
   );
 }
